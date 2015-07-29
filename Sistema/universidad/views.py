@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import Estudiante, Materia
 
+lista_consulta = []
+diccionario_consulta = {}
+
 
 class VistaPrincipal(TemplateView):
     template_name = "index.html"
@@ -10,8 +13,6 @@ class VistaPrincipal(TemplateView):
 
 def vista_estudiante(request):
     estudiante = Estudiante.objects.all()
-    lista_consulta = []
-    diccionario_consulta = {}
 
     for i in estudiante:
         diccionario_consulta = {
@@ -30,8 +31,6 @@ def vista_estudiante(request):
 
 def vista_materias(request):
     materias = Materia.objects.all()
-    lista_consulta = []
-    diccionario_consulta = {}
 
     for i in materias:
         diccionario_consulta = {
@@ -48,8 +47,6 @@ def vista_materias(request):
 
 def estudiante(request):
 
-    lista_consulta = []
-    diccionario_consulta = {}
     if request.POST['nombre']:
 
         diccionario_consulta = {
@@ -70,7 +67,7 @@ def estudiante(request):
                 }
                 lista_consulta.append(diccionario_consulta)
                 diccionario_consulta = {}
-                if request.POST['email'] :
+                if request.POST['email']:
                     diccionario_consulta = {
                         'email': request.POST['email'],
                     }
@@ -103,6 +100,62 @@ def estudiante(request):
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
-        json_data = json.dumps(lista_consulta)
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def materias(request):
+
+    if request.POST['nombre_materia']:
+
+        diccionario_consulta = {
+            'nombre': request.POST['nombre_materia'],
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+    else:
+        diccionario_consulta = {
+            'nombre': 'Falta Colocar el Nombre de la Materia',
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def asignacion(request):
+
+    if request.POST['id_materia']:
+
+        diccionario_consulta = {
+            'id_materia': request.POST['id_materia'],
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+        if request.POST['id_estudiante']:
+
+            diccionario_consulta = {
+                'id_estudiante': request.POST['id_estudiante'],
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
+        else:
+            diccionario_consulta = {
+                'id_estudiante': 'Falta Colocar el estudiante',
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
+    else:
+        diccionario_consulta = {
+            'id_materia': 'Falta Colocar la Materia',
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
 
     return HttpResponse(json_data, content_type='application/json')
