@@ -1,0 +1,21 @@
+.dates{
+	background: #eee;
+	width: 60%;
+	height: 300px;
+	margin-top: 20px;
+}
+.tabs{
+	margin-top: 40px;
+}
+.nav{
+	background: 
+}
+.tab-content{
+	position: relative;
+}
+.tab-content span{
+	position: absolute;
+	top: 10px;
+	right: 30%;
+	font-size: 30px;
+}
