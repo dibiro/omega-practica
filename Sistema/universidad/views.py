@@ -18,11 +18,32 @@ def vista_estudiante(request):
         diccionario_consulta = {
             'nombre': i.first_name,
             'apellido': i.last_name,
+            'cedula': i.cedula,
             'edad': i.edad,
             'email': i.email,
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def vista_estudiante_cedula(request):
+    estudiante = Estudiante.objects.all()
+
+    for i in estudiante:
+        if request.POST['cedula'] == i.cedula:
+            diccionario_consulta = {
+                'nombre': i.first_name,
+                'apellido': i.last_name,
+                'cedula': i.cedula,
+                'edad': i.edad,
+                'email': i.email,
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
 
     json_data = json.dumps(lista_consulta)
 
@@ -39,6 +60,23 @@ def vista_materias(request):
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def vista_materias_nombre(request):
+    materias = Materia.objects.all()
+
+    for i in materias:
+        if request.POST['nombre'] == i.nombre:
+            diccionario_consulta = {
+                'id': i.id,
+                'nombre': i.nombre,
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
 
     json_data = json.dumps(lista_consulta)
 
