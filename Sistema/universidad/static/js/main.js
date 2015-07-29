@@ -20,4 +20,9 @@ $(document).ready(function() {
 			 console.log(val.nombre)
 		});
 	});
+	$.getJSON('/unerg/asignacion_json', function(json, textStatus) {
+		$.each(json, function(index, val) {
+			 console.log(val.nombre)
+		});
+	});
 });
