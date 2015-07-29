@@ -5,24 +5,29 @@ $(document).ready(function() {
 
 	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
-			var row = $('<tr />')
-			 /**$("<td />").text(val.nombre).appendTo(row)
-			 $("<td />").text(val.apellido).appendTo(row)
-			 $("<td />").text(val.cedula).appendTo(row)
-			 $("<td />").text(val.edad).appendTo(row)
-			 $("<td />").text(val.email).appendTo(row)
-			 row.appendTo('#estudiantes');**/
-
+			
+			 var addData=[];
+			 addData.push(val.nombre);
+			 addData.push(val.apellido);
+			 addData.push(val.cedula);
+			 addData.push(val.edad);
+			 addData.push(val.email);
+			 tablaEstudiante.fnAddData(addData);
 		});
+		tablaEstudiante.fnAdjustColumnSizing();
+
 	});
 	$.getJSON('/unerg/materias_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
-			 console.log(val.nombre)
+			var addData=[];
+			 addData.push(val.nombre);
+			 tablaMateria.fnAddData(addData);	
 		});
+		tablaMateria.fnAdjustColumnSizing();
 	});
 	$.getJSON('/unerg/asignacion_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
-			 console.log(val.nombre)
+			 var addData=[];
 		});
 	});
 });
