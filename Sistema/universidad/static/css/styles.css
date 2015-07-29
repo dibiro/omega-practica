@@ -5,18 +5,23 @@
 	margin-top: 20px;
 	padding: 0.5em;
 }
+.contenedor-asignatura{
+	width: 19%;
+	background: #eee;
+	height: 80%;
+	position: absolute;
+	right: 0;
+	top: 60px;
+
+}
 .tabs{
 	margin-top: 40px;
 }
-.nav{
-	background: 
-}
+
 .tab-content{
 	position: relative;
 }
 .tab-content .icons{
-	position: absolute;
-	top: 10px;
-	right: 10%;
-	font-size: 30px;
+	margin-top: 10px;	
+	font-size: 1em	;
 }

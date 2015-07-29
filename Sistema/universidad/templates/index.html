@@ -24,22 +24,26 @@
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Estudiante</a></li>
-	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Materia</a></li>
-	    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Asignatura</a></li>
-	    
+	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Materia</a></li>	    
 	  </ul>
 
 	  <!-- Tab panes -->
 	<div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="home">
+	    	<span class="icon-user-plus icons btn btn-default" data-toggle="modal" data-target="#myModal">
+	    		agregar usuario
+	    	</span>
+
 	    	<div class="dates">
 				   <table id="estudiantes" class="display" width="100%" cellspacing="0">
 				    <thead>	
 				    	 <tr>
 			                <th>Nombre</th>
 			                <th>Apellido</th>
+			                 <th>Cedula</th>
 			                <th>Edad</th>
 			                <th>Email</th>
+			                <th>Asignatura</th>
 			                
 			            </tr>
 			         </thead>
@@ -47,11 +51,21 @@
 				       
 				        </tbody>
 		    	</table>
-				
+				<div class="contenedor-asignatura">
+					<table id="asignaturas" class="display" width="80%" cellspacing="0">
+						<thead id="asignaturas">
+							<th>Asignaturas</th>
+							
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+
+				</div>
 	    	</div>
-	    	<span class="icon-user-plus icons" data-toggle="modal" data-target="#myModal"></span>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="profile">
+	    <span class=" icon-pencil icons btn btn-default" data-toggle="modal" data-target="#myModal2">Agregar Materia</span>	
 	    	<div class="dates">
 	    		<table id="materia" class="display" width="100%" cellspacing="0">
 				    <thead>	
@@ -66,27 +80,9 @@
 				        </tbody>
 		    	</table>
 	    	</div>
-	    	<span class="icon-pencil icons" data-toggle="modal" data-target="#myModal2"></span>
+	    	
 	    </div>
-	    <div role="tabpanel" class="tab-pane" id="messages">
-	    	<div class="dates">
-	    		<table id="asignatura" class="display" width="100%" cellspacing="0">
-				    <thead>	
-				    	 <tr>
-			                <th>Nombre </th>
-			                <th>Apellido</th>
-			                <th>Cedula</th>
-			                <th>Materia Asignada</th>
-			            </tr>
-			         </thead>
-				        <tbody>
-				        	
-				        </tbody>
-
-		    	</table>
-	    	</div>
-	    	<span class=" icon-pencil icons" data-toggle="modal" data-target="#myModal3"></span>
-	    </div>
+	    
   	</div>
 
 	</div>
@@ -158,39 +154,7 @@
     </div>
   </div>
 </div>
-<!-- Modal3 -->
-<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Añadir asignatura</h4>
-      </div>
-      <div class="modal-body">
-        <form name='asignatura' id='asignatura' method='POST'>   
-        	<div class="form-group">
-        		<label for="estudiante">Estudiante:</label>
-        		<select id="estudiante" name="estudiante">
 
-        		</select>
-        	</div>
-			<div class="form-group">
-        		<label for="Materia">Materia:</label>
-        		<select id="Materia" name="materia">
-        			
-        		</select>
-        	</div>
-
-        </form>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar Cambios</button>
-      </div>
-    </div>
-  </div>
-</div>
 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
