@@ -63,15 +63,29 @@ def estudiante(request):
             }
             lista_consulta.append(diccionario_consulta)
             diccionario_consulta = {}
-            if request.POST['edad']:
+
+            if request.POST['edad'] and int(request.POST['edad']):
                 diccionario_consulta = {
                     'edad': request.POST['edad'],
                 }
                 lista_consulta.append(diccionario_consulta)
                 diccionario_consulta = {}
+                if request.POST['email'] :
+                    diccionario_consulta = {
+                        'email': request.POST['email'],
+                    }
+                    lista_consulta.append(diccionario_consulta)
+                    diccionario_consulta = {}
+                else:
+                    diccionario_consulta = {
+                        'emails': 'Falta Colocar el email',
+                    }
+                    lista_consulta.append(diccionario_consulta)
+                    diccionario_consulta = {}
+                    json_data = json.dumps(lista_consulta)
             else:
                 diccionario_consulta = {
-                    'edads': 'Falta Colocar el Edad',
+                    'edads': 'Falta Colocar el Edad o No un valor numerico',
                 }
                 lista_consulta.append(diccionario_consulta)
                 diccionario_consulta = {}
