@@ -21,3 +21,5 @@ class Materia(models.Model):
 class Asignacion(models.Model):
     codigo_materia = models.ForeignKey(Materia)
     id_estudiante = models.ForeignKey(Estudiante)
+
+    
