@@ -34,11 +34,10 @@ def vista_asignacion(request):
     lista_consulta = []
     for i in asignacion:
         diccionario_consulta = {
-            'nombre': i.first_name,
-            'apellido': i.last_name,
-            'cedula': i.cedula,
-            'edad': i.edad,
-            'email': i.email,
+            'nombre estudiante': i.id_estudiante.first_name,
+            'apellido de estudiante': i.id_estudiante.last_name,
+            'cedula del estudiante': i.id_estudiante.cedula,
+            'materia asignada': i.codigo_materia.nombre,
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
