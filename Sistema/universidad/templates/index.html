@@ -126,30 +126,30 @@
            
         	<div class="form-group">
         		<label for="nombre"></label>
-        		<input type="text" class="form-control" id="nombre">
+        		<input type="text" class="form-control" id="nombre" name="nombre">
         	</div>
 
         	<div class="form-group">
         		<label for="apellido"></label>
-        		<input type="text" class="form-control" id="apellido">
+        		<input type="text" class="form-control" id="apellido" name="apellido">
         	</div>
 
         	<div class="form-group">
         		<label for="edad"></label>
-        		<input type="password" class="form-control" id="edad">
+        		<input type="text" class="form-control" id="edad" name="edad">
         	</div>
 
         	<div class="form-group">
         		<label for="email"></label>
-        		<input type="email" class="form-control" id="email">
+        		<input type="email" class="form-control" id="email" name="email">
         	</div>
         	
         </form>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar cambios</button>
       </div>
     </div>
   </div>
@@ -165,22 +165,16 @@
       </div>
       <div class="modal-body">
         <form name='materia' id='materia' method='POST'>
-        <table id="example" class="display" width="100%" cellspacing="0">   
-        	<tbody>
-				<tr>
-					<td><label for="nombre">Nombre</label></td>
-					<td><input type="text" id="nombre"> </td>
-				</tr>
-				
-			</tbody>
-		</table>
-        	
-        </form>
+        	<div class="form-group">
+        		<label for="nombre"></label>
+        		<input type="text" class="form-control" id="nombre" name="nombre_materia">
+        	</div>
 
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar Cambios</button>
       </div>
     </div>
   </div>
@@ -194,31 +188,22 @@
         <h4 class="modal-title" id="myModalLabel">Añadir asignatura</h4>
       </div>
       <div class="modal-body">
-        <form name='asignatura' id='asignatura' method='POST'>
-        <table id="example" class="display" width="100%" cellspacing="0">   
-        	<tbody>
-				<tr>
-					<td><label for="nombre">Nombre</label></td>
-					<td><input type="text" id="nombre"> </td>
-				</tr>
-				<tr>
-					<td><label for="apellido">Codigo de materia</label></td>
-					<td><input type="text" id="apellido"></td>
-				</tr>
-				<tr>
-					<td><label for="edad">Estudiante</label></td>
-					<td><input type="text" id="edad"></td>
-				</tr>
-				
-			</tbody>
-		</table>
-        	
+        <form name='asignatura' id='asignatura' method='POST'>   
+        	<div class="form-group">
+        		<label for="nombre"></label>
+        		<input type="select" class="form-control" id="nombre" name="nombre">
+        	</div>
+			<div class="form-group">
+        		<label for="nombre"></label>
+        		<input type="select" class="form-control" id="nombre" name="nombre">
+        	</div>
+
         </form>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar Cambios</button>
       </div>
     </div>
   </div>
