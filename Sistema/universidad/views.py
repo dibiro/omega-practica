@@ -1,9 +1,8 @@
 import json
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-from .models import Estudiante, Materia
+from .models import Estudiante, Materia, Asignacion
 
-lista_consulta = []
 diccionario_consulta = {}
 
 
@@ -13,8 +12,27 @@ class VistaPrincipal(TemplateView):
 
 def vista_estudiante(request):
     estudiante = Estudiante.objects.all()
-
+    lista_consulta = []
     for i in estudiante:
+        diccionario_consulta = {
+            'nombre': i.first_name,
+            'apellido': i.last_name,
+            'cedula': i.cedula,
+            'edad': i.edad,
+            'email': i.email,
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def vista_asignacion(request):
+    asignacion = Asignacion.objects.all()
+    lista_consulta = []
+    for i in asignacion:
         diccionario_consulta = {
             'nombre': i.first_name,
             'apellido': i.last_name,
@@ -32,7 +50,7 @@ def vista_estudiante(request):
 
 def vista_estudiante_cedula(request):
     estudiante = Estudiante.objects.all()
-
+    lista_consulta = []
     for i in estudiante:
         if request.POST['cedula'] == i.cedula:
             diccionario_consulta = {
@@ -52,7 +70,7 @@ def vista_estudiante_cedula(request):
 
 def vista_materias(request):
     materias = Materia.objects.all()
-
+    lista_consulta = []
     for i in materias:
         diccionario_consulta = {
             'id': i.id,
@@ -62,13 +80,13 @@ def vista_materias(request):
         diccionario_consulta = {}
 
     json_data = json.dumps(lista_consulta)
-
+    lista_consulta = []
     return HttpResponse(json_data, content_type='application/json')
 
 
 def vista_materias_nombre(request):
     materias = Materia.objects.all()
-
+    lista_consulta = []
     for i in materias:
         if request.POST['nombre'] == i.nombre:
             diccionario_consulta = {
@@ -84,7 +102,7 @@ def vista_materias_nombre(request):
 
 
 def estudiante(request):
-
+    lista_consulta = []
     if request.POST['nombre']:
 
         diccionario_consulta = {
@@ -145,7 +163,7 @@ def estudiante(request):
 
 
 def materias(request):
-
+    lista_consulta = []
     if request.POST['nombre_materia']:
 
         diccionario_consulta = {
@@ -166,7 +184,7 @@ def materias(request):
 
 
 def asignacion(request):
-
+    lista_consulta = []
     if request.POST['id_materia']:
 
         diccionario_consulta = {

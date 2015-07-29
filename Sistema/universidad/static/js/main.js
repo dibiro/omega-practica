@@ -11,4 +11,9 @@ $(document).ready(function() {
 			 console.log(val.email)
 		});
 	});
+	$.getJSON('/unerg/materias_json', function(json, textStatus) {
+		$.each(json, function(index, val) {
+			 console.log(val.nombre)
+		});
+	});
 });
