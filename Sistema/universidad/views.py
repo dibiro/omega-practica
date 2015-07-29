@@ -15,6 +15,7 @@ def vista_estudiante(request):
     lista_consulta = []
     for i in estudiante:
         diccionario_consulta = {
+            'id_estudiantee': i.id,
             'nombre': i.first_name,
             'apellido': i.last_name,
             'cedula': i.cedula,
@@ -36,11 +37,27 @@ def vista_asignacion(request):
         diccionario_consulta = {
             'nombre_estudiante': i.id_estudiante.first_name,
             'apellido_de_estudiante': i.id_estudiante.last_name,
-            'cedula_del_estudiante': i.id_estudiante.cedula,
-            'materia_asignada': i.codigo_materia.nombre,
+            'cedula_del_ estudiante': i.id_estudiante.cedula,
+            'materia_asignada': [],
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def vista_asignacion_por_estudiante(request, pk):
+    asignacion = Asignacion.objects.all()
+    lista_consulta = []
+    for i in asignacion:
+        if pk == i.id_estudiante.id:
+            diccionario_consulta = {
+                'materia_asignada': i.codigo_materia.nombre,
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
 
     json_data = json.dumps(lista_consulta)
 
