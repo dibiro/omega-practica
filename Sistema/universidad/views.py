@@ -47,15 +47,48 @@ def vista_materias(request):
     return HttpResponse(json_data, content_type='application/json')
 
 def estudiante(request):
-    if request.method == 'POST': # If the form has been submitted...
-        form = ContactForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            # ...
-            return HttpResponseRedirect('/thanks/') # Redirect after POST
-    else:
-        form = ContactForm() # An unbound form
+    lista_consulta = []
+    diccionario_consulta = {}
+    if request.POST['nombre']: # If the form has been submitted...
 
-    return render(request, 'contact.html', {
-        'form': form,
-    })
+        diccionario_consulta = {
+            'nombre': request.POST['nombre'],
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+        if request.POST['apellido']:
+            diccionario_consulta = {
+                'apellido': request.POST['apellido'],
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
+            if request.POST['edad']:
+                diccionario_consulta = {
+                    'edad': request.POST['edad'],
+                }
+                lista_consulta.append(diccionario_consulta)
+                diccionario_consulta = {}
+            else
+                diccionario_consulta = {
+                    'edads': 'Falta Colocar el Edad',
+                }
+                lista_consulta.append(diccionario_consulta)
+                diccionario_consulta = {}
+                json_data = json.dumps(lista_consulta)
+        else
+            diccionario_consulta = {
+            'Apellidos': 'Falta Colocar el Apellido',
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
+            json_data = json.dumps(lista_consulta)
+    
+    else
+        diccionario_consulta = {
+            'nombre': 'Falta Colocar el Nombre',
+        }
+        lista_consulta.append(diccionario_consulta)
+        diccionario_consulta = {}
+        json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
