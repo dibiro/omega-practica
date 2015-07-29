@@ -3,20 +3,8 @@ $(document).ready(function() {
 	var tablaMateria= $('#materia').dataTable();
 	var tablaAsignatura= $('#asignatura').dataTable();
 
-	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
-		$.each(json, function(index, val) {
-			
-			 var addData=[];
-			 addData.push(val.nombre);
-			 addData.push(val.apellido);
-			 addData.push(val.cedula);
-			 addData.push(val.edad);
-			 addData.push(val.email);
-			 tablaEstudiante.fnAddData(addData);
-		});
-		tablaEstudiante.fnAdjustColumnSizing();
+	fill_student();
 
-	});
 	$.getJSON('/unerg/materias_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			var addData=[];
@@ -31,3 +19,20 @@ $(document).ready(function() {
 		});
 	});
 });
+
+function fill_student () {
+	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
+		$.each(json, function(index, val) {
+			
+			 var addData=[];
+			 addData.push(val.nombre);
+			 addData.push(val.apellido);
+			 addData.push(val.cedula);
+			 addData.push(val.edad);
+			 addData.push(val.email);
+			 tablaEstudiante.fnAddData(addData);
+		});
+		tablaEstudiante.fnAdjustColumnSizing();
+
+	});
+}
