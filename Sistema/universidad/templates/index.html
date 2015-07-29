@@ -122,22 +122,22 @@
            
         	<div class="form-group">
         		<label for="nombre">Nombre</label>
-        		<input type="text" class="form-control" id="nombre" name="nombre">
+        		<input type="text" class="form-control" id="nombre" name="nombre" required>
         	</div>
 
         	<div class="form-group">
         		<label for="apellido">Apellido:</label>
-        		<input type="text" class="form-control" id="apellido" name="apellido">
+        		<input type="text" class="form-control" id="apellido" name="apellido" required>
         	</div>
 
         	<div class="form-group">
         		<label for="edad">Edad:</label>
-        		<input type="number" class="form-control" id="edad" name="edad">
+        		<input type="number" class="form-control" id="edad" name="edad" required>
         	</div>
 
         	<div class="form-group">
         		<label for="email">Email:</label>
-        		<input type="email" class="form-control" id="email" name="email">
+        		<input type="email" class="form-control" id="email" name="email" required>
         	</div>
         	
         </form>
@@ -163,7 +163,7 @@
         <form name='materia' id='materia' method='POST'>
         	<div class="form-group">
         		<label for="nombre">Nombre</label>
-        		<input type="text" class="form-control" id="nombre" name="nombre_materia">
+        		<input type="text" class="form-control" id="nombre" name="nombre_materia" required>
         	</div>
 
         </form>
@@ -187,13 +187,13 @@
         <form name='asignatura' id='asignatura' method='POST'>   
         	<div class="form-group">
         		<label for="estudiante">Estudiante:</label>
-        		<select id="estudiante">
+        		<select id="estudiante" name="estudiante">
 
         		</select>
         	</div>
 			<div class="form-group">
         		<label for="Materia">Materia:</label>
-        		<select id="Materia">
+        		<select id="Materia" name="materia">
         			
         		</select>
         	</div>
