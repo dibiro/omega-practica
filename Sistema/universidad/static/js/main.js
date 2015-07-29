@@ -12,6 +12,7 @@ $(document).ready(function() {
 	//boton para  mostrar el contenedor de asignaturas
 	var mostrar = $('#asignatura');
 
+<<<<<<< HEAD
 	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			
@@ -26,8 +27,10 @@ $(document).ready(function() {
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
+=======
+	fill_student();
+>>>>>>> 8127b6d6586f1a25ad19265d5287ad754c8936a2
 
-	});
 	$.getJSON('/unerg/materias_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			var addData=[];
@@ -46,3 +49,20 @@ $(document).ready(function() {
 
 	});
 });
+
+function fill_student () {
+	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
+		$.each(json, function(index, val) {
+			
+			 var addData=[];
+			 addData.push(val.nombre);
+			 addData.push(val.apellido);
+			 addData.push(val.cedula);
+			 addData.push(val.edad);
+			 addData.push(val.email);
+			 tablaEstudiante.fnAddData(addData);
+		});
+		tablaEstudiante.fnAdjustColumnSizing();
+
+	});
+}
