@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	$('#estudiantes').dataTable();
+	$('#materia').dataTable();
+	$('#asignatura').dataTable();
 	$.getJSON('/universidad/estudiante_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			 console.log(val.first_name)
