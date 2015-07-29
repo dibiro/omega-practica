@@ -7,5 +7,5 @@ urlpatterns = patterns(
     '',
     url(r'^estudiante_json/', vista_estudiante),
     url(r'^materias_json/', vista_materias),
-    url(r'^principal/', VistaPrincipal.as_view()),
+    url(r'^', VistaPrincipal.as_view()),
 )
