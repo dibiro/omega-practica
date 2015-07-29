@@ -1,6 +1,5 @@
 import json
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import Estudiante, Materia
 
@@ -46,10 +45,12 @@ def vista_materias(request):
 
     return HttpResponse(json_data, content_type='application/json')
 
+
 def estudiante(request):
+
     lista_consulta = []
     diccionario_consulta = {}
-    if request.POST['nombre']: # If the form has been submitted...
+    if request.POST['nombre']:
 
         diccionario_consulta = {
             'nombre': request.POST['nombre'],
@@ -68,22 +69,21 @@ def estudiante(request):
                 }
                 lista_consulta.append(diccionario_consulta)
                 diccionario_consulta = {}
-            else
+            else:
                 diccionario_consulta = {
                     'edads': 'Falta Colocar el Edad',
                 }
                 lista_consulta.append(diccionario_consulta)
                 diccionario_consulta = {}
                 json_data = json.dumps(lista_consulta)
-        else
+        else:
             diccionario_consulta = {
-            'Apellidos': 'Falta Colocar el Apellido',
+                'Apellidos': 'Falta Colocar el Apellido',
             }
             lista_consulta.append(diccionario_consulta)
             diccionario_consulta = {}
             json_data = json.dumps(lista_consulta)
-    
-    else
+    else:
         diccionario_consulta = {
             'nombre': 'Falta Colocar el Nombre',
         }
