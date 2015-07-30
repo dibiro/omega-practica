@@ -229,48 +229,34 @@ def materias(request):
         return HttpResponse(json_data, content_type='application/json')
 
 
-def asignacion(request):
+def asignacion(request, pk):
     lista_guardado = []
-    lista_errores = []
-    if request.POST['id_materia'] is not '' and int(request.POST['id_materia']):
-
-        diccionario_consulta = {
-            'codigo_materia': request.POST['id_materia'],
-        }
-        lista_guardado.append(diccionario_consulta)
-        diccionario_consulta = {}
-        if request.POST['id_estudiante'] is not '' and int(request.POST['id_estudiante']):
-
+    lista_materias = request.POST.get['lista_para_asociar']
+    diccionario_consulta = {}
+    if len(lista_materias) > 0:
+        for i in lista_materias:
             diccionario_consulta = {
-                'id_estudiante': request.POST['id_estudiante'],
+                'codigo_materia': i,
+                'id_estudiante': pk,
             }
             lista_guardado.append(diccionario_consulta)
             diccionario_consulta = {}
-        else:
-            diccionario_consulta = {
-                'id_estudiante': 'Falta Colocar el estudiante',
-            }
-            lista_errores.append(diccionario_consulta)
-            diccionario_consulta = {}
-    else:
-        diccionario_consulta = {
-            'id_materia': 'Falta Colocar la Materia',
-        }
-        lista_errores.append(diccionario_consulta)
-        diccionario_consulta = {}
-    if len(lista_errores) > 0:
-        json_data = json.dumps(lista_errores)
-
-        return HttpResponse(json_data, content_type='application/json')
-    else:
+        json_data = json.dumps(lista_guardado)
         asignacion = Asignacion(**lista_guardado)
         asignacion.save()
 
-        json_data = json.dumps(lista_guardado)
         return HttpResponse(json_data, content_type='application/json')
 
 
-def asocial_materia(request):
+def desasignacion(request, pk):
+    lista_materias = request.POST.get['lista_para_desasociar']
+    if len(lista_materias) > 0:
+        for i in lista_materias:
+            asignacion = Asignacion.objects.get(id__pk=i)
+            asignacion.delete()
+
+
+def asociar_materia(request):
     estudiante = request.POST['id_estudiante']
     lista_materias = request.POST['materias']
     asociacion = {}
