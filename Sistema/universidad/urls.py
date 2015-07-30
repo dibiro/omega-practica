@@ -1,12 +1,15 @@
 from django.conf.urls import patterns, url
-from .views import vista_materias, desasignacion, materias_asociadas_estudiante, materias_no_asociadas, estudiante, materias, asignacion, vista_asignacion_por_estudiante, vista_asignacion, vista_estudiante, VistaPrincipal, vista_estudiante_cedula, vista_materias_nombre, asociar_materia, eliminar_estudiante, eliminar_materia
+from .views import vista_materias, desasignacion, materias_asociadas_estudiante, materias_no_asociadas, estudiante, materias, asignacion, vista_asignacion_por_estudiante, vista_asignacion, vista_estudiante, VistaPrincipal, vista_estudiante_cedula, vista_materias_nombre, asociar_materia, eliminar_estudiante, eliminar_materia, actualizar_estudiante, actualizar_materia, actualizar_asignacion
 
 urlpatterns = patterns(
     url(r'^index/', VistaPrincipal.as_view()),
     url(r'^estudiante_json/', vista_estudiante),
     url(r'^estudiante_guardar_json/', estudiante),
+    url(r'^estudiante_actualizar_json/', actualizar_estudiante),
     url(r'^materias_guardar_json/', materias),
+    url(r'^materias_actualizar_json/', actualizar_materia),
     url(r'^asignacion_guardar_json/(?P<pk>[0-9]+)', asignacion),
+    url(r'^asignacion_actualizar_json/(?P<pk>[0-9]+)', actualizar_asignacion),
     url(r'^asignacion_eliminar_json/(?P<pk>[0-9]+)', desasignacion),
     url(r'^materias_json/', vista_materias),
     url(r'^asignacion_json/', vista_asignacion),

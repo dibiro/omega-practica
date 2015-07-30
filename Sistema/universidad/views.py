@@ -349,3 +349,79 @@ def eliminar_materia(request, pk):
         msg = 'Estado de la Materia %s cambiado' % (materia.nombre)
     json_data = json.dumps(msg)
     return HttpResponse(json_data, content_type='application/json')
+
+
+def actualizar_estudiante(request, pk):
+    msg = ''
+    try:
+        estudiante = Estudiante.objects.get(id=pk)
+    except:
+        msg = 'Estudiante no existe'
+
+    if msg is '':
+        if request.POST['nombre'] is not '':
+            estudiante.first_name = request.POST['nombre']
+            if request.POST['apellido'] is not '':
+                estudiante.last_name = request.POST['apellido']
+                if request.POST['cedula'] is not '' and int(request.POST['cedula']):
+                    estudiante.cedula = request.POST['cedula']
+                    if request.POST['edad'] is not '' and int(request.POST['edad']):
+                        estudiante.edad = request.POST['edad']
+                        if request.POST['email'] is not '':
+                            estudiante.first_name = request.POST['email']
+                            estudiante.save()
+                            msg = 'Reguistro del Estudiante %s %s C.I: %s cambiado' % (estudiante.first_name, estudiante.last_name, estudiante.ceduala)
+                        else:
+                            msg = 'No se pueden guardar el correo vacio'
+                    else:
+                        msg = 'No se pueden guardar la edad vacio o no es un campo numerico'
+                else:
+                    msg = 'No se pueden guardar la cedula vacio o no es un campo numerico'
+            else:
+                msg = 'No se pueden guardar Apellidos vacio'
+        else:
+            msg = 'No se pueden guardar Nombres vacio'
+    json_data = json.dumps(msg)
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def actualizar_materia(request, pk):
+    msg = ''
+    try:
+        materia = Materia.objects.get(id=pk)
+    except:
+        msg = 'Materia no existe'
+
+    if msg is '':
+        if request.POST['nombre_materia'] is not '':
+            materia.nombre = request.POST['nombre_materia']
+        else:
+            msg = 'No se pueden guardar el nombre de la materia vacio'
+
+    materia.save()
+    msg = 'Reguistro del Materia %s cambiado' % (materia.nombre)
+    json_data = json.dumps(msg)
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def actualizar_asignacion(request, pk):
+    msg = ''
+    try:
+        asignacion = Asignacion.objects.get(id=pk)
+        estudiante = Estudiante.objects.get(id=request.POST['id_estudiante'])
+        materia = Materia.objects.get(id=request.POST['codigo_materia'])
+    except:
+        if asignacion is '':
+            msg = 'Asignacion no existe o valor invalido '
+        if estudiante is '':
+            msg = msg + 'Estudiante no existe o valor invalido '
+        if materia is '':
+            msg = msg + 'Materia no existe o valor invalido'
+
+    if msg is '':
+        asignacion.codigo_materia = request.POST['codigo_materia']
+        asignacion.id_estudiante = request.POST['id_estudiante']
+        asignacion.save()
+        msg = 'Reguistro del Asignacion del estudiante %s %s %s con la materia %s cambiado' % (asignacion.id_estudiante.first_name, asignacion.id_estudiante.last_name, asignacion.id_estudiante.cedula, asignacion.codigo_materia.nombre)
+    json_data = json.dumps(msg)
+    return HttpResponse(json_data, content_type='application/json')
