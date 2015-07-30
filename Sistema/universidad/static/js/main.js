@@ -1,6 +1,5 @@
-$(document).ready(function() {
-	var tablaEstudiante= $('#estudiantes').dataTable();
-	var tablaMateria= $('#materia').dataTable();
+$(document).ready(function() { 
+//temporar luego se cambiara de sitio
 	var tablaAsignatura= $('#asignaturas').dataTable({
 		'sScrollInfinite':true,
 		'bPaginate':false
@@ -12,8 +11,16 @@ $(document).ready(function() {
 	//boton para  mostrar el contenedor de asignaturas
 	var mostrar = $('#asignatura');
 
-<<<<<<< HEAD
-	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
+
+	fill_student();
+	fill_materia();
+
+})
+//llenado de la dataTable estudiantes 
+	function fill_student () {
+		var tablaEstudiante= $('#estudiantes').dataTable();
+
+		$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			
 			 var addData=[];
@@ -27,11 +34,15 @@ $(document).ready(function() {
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
-=======
-	fill_student();
->>>>>>> 8127b6d6586f1a25ad19265d5287ad754c8936a2
+	})
 
-	$.getJSON('/unerg/materias_json', function(json, textStatus) {
+
+	}
+//llenado de la dataTable Materia
+	function fill_materia(){
+
+		var tablaMateria= $('#materia').dataTable();
+		$.getJSON('/unerg/materias_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			var addData=[];
 			 addData.push(val.nombre);
@@ -39,6 +50,11 @@ $(document).ready(function() {
 		});
 		tablaMateria.fnAdjustColumnSizing();
 	});
+
+	}
+
+
+/**asignaciones
 	$.getJSON('/unerg/asignacion_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
 			 var addData=[];
@@ -48,21 +64,6 @@ $(document).ready(function() {
 		tablaMateria.fnAdjustColumnSizing();
 
 	});
-});
+);
+**/
 
-function fill_student () {
-	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
-		$.each(json, function(index, val) {
-			
-			 var addData=[];
-			 addData.push(val.nombre);
-			 addData.push(val.apellido);
-			 addData.push(val.cedula);
-			 addData.push(val.edad);
-			 addData.push(val.email);
-			 tablaEstudiante.fnAddData(addData);
-		});
-		tablaEstudiante.fnAdjustColumnSizing();
-
-	});
-}
