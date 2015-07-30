@@ -201,55 +201,73 @@ def estudiante(request):
 
 
 def materias(request):
-    lista_consulta = []
-    if request.POST['nombre_materia']:
+    lista_guardado = []
+    lista_errores = []
+    if request.POST['nombre_materia'] is not '':
 
         diccionario_consulta = {
             'nombre': request.POST['nombre_materia'],
         }
-        lista_consulta.append(diccionario_consulta)
+        lista_guardado.append(diccionario_consulta)
         diccionario_consulta = {}
     else:
         diccionario_consulta = {
             'nombre': 'Falta Colocar el Nombre de la Materia',
         }
-        lista_consulta.append(diccionario_consulta)
+        lista_errores.append(diccionario_consulta)
         diccionario_consulta = {}
 
-    json_data = json.dumps(lista_consulta)
+    if len(lista_errores) > 0:
+        json_data = json.dumps(lista_errores)
 
-    return HttpResponse(json_data, content_type='application/json')
+        return HttpResponse(json_data, content_type='application/json')
+    else:
+        materias = Materias(**lista_guardado)
+        materias.save()
+
+        json_data = json.dumps(lista_guardado)
+        return HttpResponse(json_data, content_type='application/json')
+
 
 
 def asignacion(request):
-    lista_consulta = []
-    if request.POST['id_materia']:
+    lista_guardado = []
+    lista_errores = []
+    if request.POST['id_materia'] is not '' and int(request.POST['edad']):
 
         diccionario_consulta = {
-            'id_materia': request.POST['id_materia'],
+            'codigo_materia': request.POST['id_materia'],
         }
-        lista_consulta.append(diccionario_consulta)
+        lista_guardado.append(diccionario_consulta)
         diccionario_consulta = {}
-        if request.POST['id_estudiante']:
+        if request.POST['id_estudiante'] is not '' and int(request.POST['edad']):
 
             diccionario_consulta = {
                 'id_estudiante': request.POST['id_estudiante'],
             }
-            lista_consulta.append(diccionario_consulta)
+            lista_guardado.append(diccionario_consulta)
             diccionario_consulta = {}
         else:
             diccionario_consulta = {
                 'id_estudiante': 'Falta Colocar el estudiante',
             }
-            lista_consulta.append(diccionario_consulta)
+            lista_errores.append(diccionario_consulta)
             diccionario_consulta = {}
     else:
         diccionario_consulta = {
             'id_materia': 'Falta Colocar la Materia',
         }
-        lista_consulta.append(diccionario_consulta)
+        lista_errores.append(diccionario_consulta)
         diccionario_consulta = {}
+    if len(lista_errores) > 0:
+        json_data = json.dumps(lista_errores)
 
-    json_data = json.dumps(lista_consulta)
+        return HttpResponse(json_data, content_type='application/json')
+    else:
+        asignacion = Asignacion(**lista_guardado)
+        asignacion.save()
 
-    return HttpResponse(json_data, content_type='application/json')
+        json_data = json.dumps(lista_guardado)
+        return HttpResponse(json_data, content_type='application/json')
+
+    

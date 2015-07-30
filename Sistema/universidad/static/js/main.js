@@ -8,7 +8,11 @@ $(document).ready(function() {
 	//contenedor de asignaturas
 	var asignatura= $('.contenedor-asignatura');
 	//ocultando las asignaturas al iniciar la pagina
+<<<<<<< HEAD
 	
+=======
+	 asignatura.hidde;
+>>>>>>> cf2854ccfa7121b966562ae2e728e8cfbad13e31
 	//boton para  mostrar el contenedor de asignaturas
 	var mostrar = $('#asignatura');
 
@@ -67,4 +71,3 @@ $(document).ready(function() {
 	});
 );
 **/
-
