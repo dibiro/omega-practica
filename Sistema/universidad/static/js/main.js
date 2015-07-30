@@ -1,32 +1,19 @@
 $(document).ready(function() { 
-//temporar luego se cambiara de sitio
+
 	var tablaAsignatura= $('#asignaturas').dataTable({
 		'sScrollInfinite':true,
 		'bPaginate':false,
 		'searching':false,
 	});
-	//contenedor de asignaturas
 	var asignatura= $('.contenedor-asignatura');
-	//ocultando las asignaturas al iniciar la pagina
-
-	 asignatura.hide();
-
-	//boton para  mostrar el contenedor de asignaturas
-	$('.asignatura').on("click", function(){
-		alert("me ejecuto");
-		muestrame(asignatura);
-	});
-
-	fill_student();
+	asignatura.hide();
+	fill_student(asignatura);
 	fill_materia();
 
 })
-//mostrando asignaturas
-function muestrame(asignatura){
-	asignatura.show(1000);
-}
-//llenado de la dataTable estudiantes 
-	function fill_student () {
+
+
+	function fill_student (asignatura) {
 		var tablaEstudiante= $('#estudiantes').dataTable({
 			'scrollX':true
 		});
@@ -40,11 +27,16 @@ function muestrame(asignatura){
 			 addData.push(val.cedula);
 			 addData.push(val.edad);
 			 addData.push(val.email);
-			 addData.push("<a class='btn btn-success' class='asignatura'>asignatura</a>");
+			 addData.push("<a class='btn btn-success asignaturas' >asignatura</a>");
 			 tablaEstudiante.fnAddData(addData);
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
+
+		$('.asignaturas').on("click", function(){
+		
+		asignatura.show(1000);
+	});
 	})
 
 
@@ -75,5 +67,5 @@ function muestrame(asignatura){
 		tablaMateria.fnAdjustColumnSizing();
 
 	});
-);
-**/
+);*/
+

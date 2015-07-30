@@ -35,7 +35,7 @@
 	    	</span>
 
 	    	<div class="dates">
-				   <table id="estudiantes" class="display" width="100%" cellspacing="0">
+				   <table id="estudiantes" class="display" width="10	0%" cellspacing="0">
 				    <thead>	
 				    	 <tr>
 			                <th>Nombre</th>
@@ -56,12 +56,11 @@
 					<table id="asignaturas" class="display" width="100%" cellspacing="0">
 						<thead id="asignaturas">
 							<th>Asignaturas</th>
-							
 						</thead>
 						<tbody>
 						</tbody>
 					</table>
-	    	</div>
+					
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="profile">
 	    <span class=" icon-pencil icons btn btn-default" data-toggle="modal" data-target="#myModal2">Agregar Materia</span>	
@@ -96,7 +95,7 @@
         <h4 class="modal-title" id="myModalLabel">Añadir Estudiante</h4>
       </div>
       <div class="modal-body">
-        <form name='estudiante' id='estudiante' method='POST'>
+        <form role="form" data-toggle="validator" name='estudiante' id='estudiante' method='POST' >
            
         	<div class="form-group">
         		<label for="nombre">Nombre</label>
@@ -123,7 +122,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
       </div>
     </div>
   </div>
@@ -158,5 +157,6 @@
 <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/validator.js' %}"></script>
 </body>
 </html>
