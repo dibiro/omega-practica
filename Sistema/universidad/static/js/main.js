@@ -2,12 +2,13 @@ $(document).ready(function() {
 //temporar luego se cambiara de sitio
 	var tablaAsignatura= $('#asignaturas').dataTable({
 		'sScrollInfinite':true,
-		'bPaginate':false
+		'bPaginate':false,
+		'searching':false,
 	});
 	//contenedor de asignaturas
 	var asignatura= $('.contenedor-asignatura');
 	//ocultando las asignaturas al iniciar la pagina
-	 
+	
 	//boton para  mostrar el contenedor de asignaturas
 	var mostrar = $('#asignatura');
 
