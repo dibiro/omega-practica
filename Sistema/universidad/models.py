@@ -18,7 +18,7 @@ class Materia(models.Model):
     estado = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return self.nombre
+        return "%s - %s - %s" % (self.id, self.nombre, self.estado)
 
 
 class Asignacion(models.Model):

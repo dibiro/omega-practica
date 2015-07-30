@@ -11,7 +11,7 @@ class VistaPrincipal(TemplateView):
 
 
 def vista_estudiante(request):
-    estudiante = Estudiante.objects.all()
+    estudiante = Estudiante.objects.all().order_by('pk')
     lista_consulta = []
     for i in estudiante:
         diccionario_consulta = {
@@ -317,12 +317,35 @@ def materias_asociadas_estudiante(request, pk):
 
 
 def eliminar_estudiante(request, pk):
-    estudiante = Estudiante.objects.get(id__pk=pk)
-    estudiante.delete()
-    return HttpResponse('Estudante Eliminado')
+    msg = ''
+    try:
+        estudiante = Estudiante.objects.get(id=pk)
+    except:
+        msg = 'Estudiante no existe'
+
+    if msg is '':
+        if estudiante.estado is True:
+            estudiante.estado = False
+        else:
+            estudiante.estado = True
+        estudiante.save()
+        msg = 'Estado del Estudiante %s cambiado' % (estudiante.first_name)
+    json_data = json.dumps(msg)
+    return HttpResponse(json_data, content_type='application/json')
 
 
 def eliminar_materia(request, pk):
-    materia = Materia.objects.get(id__pk=pk)
-    materia.delete()
-    return HttpResponse('Materia Eliminada')
+    msg = ''
+    try:
+        materia = Materia.objects.get(id=pk)
+    except:
+        msg = 'Materia no existe'
+    if msg is '':
+        if materia.estado is True:
+            materia.estado = False
+        else:
+            materia.estado = True
+        materia.save()
+        msg = 'Estado de la Materia %s cambiado' % (materia.nombre)
+    json_data = json.dumps(msg)
+    return HttpResponse(json_data, content_type='application/json')
