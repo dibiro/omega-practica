@@ -1,10 +1,5 @@
 $(document).ready(function() { 
 
-	var tablaAsignatura= $('#asignaturas').dataTable({
-		'sScrollInfinite':true,
-		'bPaginate':false,
-		'searching':false,
-	});
 	var asignatura= $('.contenedor-asignatura');
 	asignatura.hide();
 	fill_student(asignatura);
@@ -27,21 +22,25 @@ $(document).ready(function() {
 			 addData.push(val.cedula);
 			 addData.push(val.edad);
 			 addData.push(val.email);
-			 addData.push("<button class='btn btn-success asignaturas' value='"+val.id_estudiantee+"' >asignatura</button>");
+			 addData.push(val.estado);
+			 addData.push("<a class='btn btn-success asignaturas' href='/unerg/asignacion_estudiante_json/"+val.id_estudiantee+"' >asignatura</button>");
 			 tablaEstudiante.fnAddData(addData);
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
 
 		$('.asignaturas').on("click", function(){	
+		
 		asignatura.show(1000);
-		fill_asignatura()
-	});
+		var id= $('.asignaturas').attr('href');
+		$.get(id ,fill_asignatura(id));
+
+		});
+
 	})
 
-
 	}
-//llenado de la dataTable Materia
+
 	function fill_materia(){
 
 		var tablaMateria= $('#materia').dataTable();
@@ -56,15 +55,21 @@ $(document).ready(function() {
 
 	}
 
-	function fill_asignatura(){
-	var id= $('.asignaturas').attr('value')
-	$.getJSON('/unerg/asignacion_estudiante_json/'+id, function(json, textStatus) {
+	function fill_asignatura(id){
+		
+		var tablaAsignatura= $('#asignaturas').dataTable({
+		'sScrollInfinite':true,
+		'bPaginate':false,
+		'searching':false,
+		});
+
+	$.getJSON(id, function(json, textStatus) {
 		$.each(json, function(index, val) {
 			 var addData=[];
 			 addData.push(val.materia_asignada)
 			tablaAsignatura.fnAddData(addData);
 		});
 		tablaMateria.fnAdjustColumnSizing();
-
-	});
+		
+	})
 }
