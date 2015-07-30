@@ -318,7 +318,7 @@ def materias_asociadas_estudiante(request, pk):
     for i in asignacion:
         diccionario_consulta = {
             'id': i.id,
-            'materia_asignada': i.nombre,
+            'materia_asignada': i.codigo_materia.nombre,
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
