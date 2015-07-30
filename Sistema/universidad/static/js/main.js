@@ -8,22 +8,28 @@ $(document).ready(function() {
 	//contenedor de asignaturas
 	var asignatura= $('.contenedor-asignatura');
 	//ocultando las asignaturas al iniciar la pagina
-<<<<<<< HEAD
-	
-=======
-	 asignatura.hidde;
->>>>>>> cf2854ccfa7121b966562ae2e728e8cfbad13e31
-	//boton para  mostrar el contenedor de asignaturas
-	var mostrar = $('#asignatura');
 
+	 asignatura.hide();
+
+	//boton para  mostrar el contenedor de asignaturas
+	$('.asignatura').on("click", function(){
+		alert("me ejecuto");
+		muestrame(asignatura);
+	});
 
 	fill_student();
 	fill_materia();
 
 })
+//mostrando asignaturas
+function muestrame(asignatura){
+	asignatura.show(1000);
+}
 //llenado de la dataTable estudiantes 
 	function fill_student () {
-		var tablaEstudiante= $('#estudiantes').dataTable();
+		var tablaEstudiante= $('#estudiantes').dataTable({
+			'scrollX':true
+		});
 
 		$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
 		$.each(json, function(index, val) {
@@ -34,7 +40,7 @@ $(document).ready(function() {
 			 addData.push(val.cedula);
 			 addData.push(val.edad);
 			 addData.push(val.email);
-			 addData.push("<a class='btn btn-success' id='asignatura' href=/unerg/estudiante_json?=val.cedula>asignatura</a>");
+			 addData.push("<a class='btn btn-success' class='asignatura'>asignatura</a>");
 			 tablaEstudiante.fnAddData(addData);
 
 		});
