@@ -33,7 +33,7 @@ $(document).ready(function() {
 		
 		asignatura.show(1000);
 		var id= $('.asignaturas').attr('href');
-		$.get(id ,fill_asignatura(id));
+		$.load(id ,fill_asignatura(id));
 
 		});
 
