@@ -27,15 +27,15 @@ $(document).ready(function() {
 			 addData.push(val.cedula);
 			 addData.push(val.edad);
 			 addData.push(val.email);
-			 addData.push("<a class='btn btn-success asignaturas' >asignatura</a>");
+			 addData.push("<button class='btn btn-success asignaturas' value='"+val.id_estudiantee+"' >asignatura</button>");
 			 tablaEstudiante.fnAddData(addData);
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
 
-		$('.asignaturas').on("click", function(){
-		
+		$('.asignaturas').on("click", function(){	
 		asignatura.show(1000);
+		fill_asignatura()
 	});
 	})
 
@@ -56,9 +56,9 @@ $(document).ready(function() {
 
 	}
 
-
-/**asignaciones
-	$.getJSON('/unerg/asignacion_json', function(json, textStatus) {
+	function fill_asignatura(){
+	var id= $('.asignaturas').attr('value')
+	$.getJSON('/unerg/asignacion_estudiante_json/'+id, function(json, textStatus) {
 		$.each(json, function(index, val) {
 			 var addData=[];
 			 addData.push(val.materia_asignada)
@@ -67,5 +67,4 @@ $(document).ready(function() {
 		tablaMateria.fnAdjustColumnSizing();
 
 	});
-);*/
-
+}
