@@ -1,75 +1,76 @@
 $(document).ready(function() { 
 
-	var asignatura= $('.contenedor-asignatura');
-	asignatura.hide();
-	fill_student(asignatura);
-	fill_materia();
+    asignatura.hide();
+    fill_student();
+    fill_materia();
+
 
 })
+var asignatura= $('.contenedor-asignatura');
+var tablaEstudiante= $('#estudiantes').dataTable({
+    'scrollX':true
+});
+
+var tablaMateria= $('#materia').dataTable();
+
+var tablaAsignatura= $('#asignaturas').dataTable({
+    'sScrollInfinite':true,
+    'bPaginate':false,
+    'searching':false,
+});
 
 
-	function fill_student (asignatura) {
-		var tablaEstudiante= $('#estudiantes').dataTable({
-			'scrollX':true
-		});
+function fill_student () {
+    tablaEstudiante.fnClearTable();
+    $.getJSON('/unerg/estudiante_json', function(json, textStatus) {
+        $.each(json, function(index, val) {		
+            var addData=[];
+            addData.push(val.nombre);
+            addData.push(val.apellido);
+            addData.push(val.cedula);
+            addData.push(val.edad);
+            addData.push(val.email);
+            addData.push("<div class='make-switch'><input type='checkbox'  name='my-checkbox'  checked data-size></div>");
+            addData.push("<button class='btn btn-success asignaturas' data-id="+val.id_estudiantee+">asignatura</button>");
+            tablaEstudiante.fnAddData(addData);
 
-		$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
-		$.each(json, function(index, val) {
-			
-			 var addData=[];
-			 addData.push(val.nombre);
-			 addData.push(val.apellido);
-			 addData.push(val.cedula);
-			 addData.push(val.edad);
-			 addData.push(val.email);
-			 addData.push(val.estado);
-			 addData.push("<a class='btn btn-success asignaturas' href='/unerg/asignacion_estudiante_json/"+val.id_estudiantee+"' >asignatura</button>");
-			 tablaEstudiante.fnAddData(addData);
+        });
+        evento_click_estudiante();
+        tablaEstudiante.fnAdjustColumnSizing();
+        $("[name='my-checkbox']").bootstrapSwich();
+    })
+}
 
-		});
-		tablaEstudiante.fnAdjustColumnSizing();
+function fill_materia(){
 
-		$('.asignaturas').on("click", function(){	
-		
-		asignatura.show(1000);
-		var id= $('.asignaturas').attr('href');
-		$.load(id ,fill_asignatura(id));
+    $.getJSON('/unerg/materias_json', function(json, textStatus) {
+        $.each(json, function(index, val) {
+            var addData=[];
+            addData.push(val.nombre);
+            tablaMateria.fnAddData(addData);	
+        });
+        tablaMateria.fnAdjustColumnSizing();
+    });
 
-		});
+}
 
-	})
+function fill_asignatura(id){
+    tablaAsignatura.fnClearTable();
+    $.getJSON('/unerg/materias_asociadas_estudiante_json/'+id, function(json, textStatus) {
+        $.each(json, function(index, val) {
+            var addData=[];
+            addData.push(val.materia_asignada)
+            tablaAsignatura.fnAddData(addData);
+        });
+        tablaAsignatura.fnAdjustColumnSizing();
 
-	}
+    })
+}
 
-	function fill_materia(){
-
-		var tablaMateria= $('#materia').dataTable();
-		$.getJSON('/unerg/materias_json', function(json, textStatus) {
-		$.each(json, function(index, val) {
-			var addData=[];
-			 addData.push(val.nombre);
-			 tablaMateria.fnAddData(addData);	
-		});
-		tablaMateria.fnAdjustColumnSizing();
-	});
-
-	}
-
-	function fill_asignatura(id){
-		
-		var tablaAsignatura= $('#asignaturas').dataTable({
-		'sScrollInfinite':true,
-		'bPaginate':false,
-		'searching':false,
-		});
-
-	$.getJSON(id, function(json, textStatus) {
-		$.each(json, function(index, val) {
-			 var addData=[];
-			 addData.push(val.materia_asignada)
-			tablaAsignatura.fnAddData(addData);
-		});
-		tablaMateria.fnAdjustColumnSizing();
-		
-	})
+function evento_click_estudiante () {
+    $('.asignaturas').unbind('click');
+    $('.asignaturas').on('click', function() {
+        fill_asignatura($(this).data('id'));
+        asignatura.show(1000);
+    });
 }
