@@ -7,6 +7,7 @@ class Estudiante(models.Model):
     cedula = models.CharField(max_length=100, unique=True)
     edad = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
+    estado = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name + " C.I:" + self.cedula + " Edad:" + self.edad + " Email:" + self.email
@@ -14,6 +15,7 @@ class Estudiante(models.Model):
 
 class Materia(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
+    estado = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.nombre

@@ -21,6 +21,7 @@ def vista_estudiante(request):
             'cedula': i.cedula,
             'edad': i.edad,
             'email': i.email,
+            'estado': i.estado,
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
@@ -91,6 +92,7 @@ def vista_materias(request):
         diccionario_consulta = {
             'id': i.id,
             'nombre': i.nombre,
+            'estado': i.estado,
         }
         lista_consulta.append(diccionario_consulta)
         diccionario_consulta = {}
@@ -254,6 +256,7 @@ def desasignacion(request, pk):
         for i in lista_materias:
             asignacion = Asignacion.objects.get(id__pk=i)
             asignacion.delete()
+    return HttpResponse('materias desvinculada')
 
 
 def asociar_materia(request):
@@ -311,3 +314,15 @@ def materias_asociadas_estudiante(request, pk):
     json_data = json.dumps(lista_consulta)
 
     return HttpResponse(json_data, content_type='application/json')
+
+
+def eliminar_estudiante(request, pk):
+    estudiante = Estudiante.objects.get(id__pk=pk)
+    estudiante.delete()
+    return HttpResponse('Estudante Eliminado')
+
+
+def eliminar_materia(request, pk):
+    materia = Materia.objects.get(id__pk=pk)
+    materia.delete()
+    return HttpResponse('Materia Eliminada')
