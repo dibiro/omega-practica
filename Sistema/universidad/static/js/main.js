@@ -7,14 +7,11 @@ $(document).ready(function() {
 	//contenedor de asignaturas
 	var asignatura= $('.contenedor-asignatura');
 	//ocultando las asignaturas al iniciar la pagina
-	 
+	 asignatura.hidde;
 	//boton para  mostrar el contenedor de asignaturas
 	var mostrar = $('#asignatura');
 
 
-<<<<<<< HEAD
-	$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
-=======
 	fill_student();
 	fill_materia();
 
@@ -24,7 +21,6 @@ $(document).ready(function() {
 		var tablaEstudiante= $('#estudiantes').dataTable();
 
 		$.getJSON('/unerg/estudiante_json', function(json, textStatus) {
->>>>>>> 41ba46177086a11f7d2be5ec2fa97fbdfb193f26
 		$.each(json, function(index, val) {
 			
 			 var addData=[];
@@ -38,12 +34,7 @@ $(document).ready(function() {
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
-<<<<<<< HEAD
-
-	fill_student();
-=======
 	})
->>>>>>> 41ba46177086a11f7d2be5ec2fa97fbdfb193f26
 
 
 	}
@@ -75,4 +66,3 @@ $(document).ready(function() {
 	});
 );
 **/
-
