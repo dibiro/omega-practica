@@ -37,7 +37,7 @@ function fill_student () {
         });
         evento_click_estudiante();
         tablaEstudiante.fnAdjustColumnSizing();
-        $("[name='my-checkbox']").bootstrapSwich();
+        
     })
 }
 
