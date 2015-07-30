@@ -229,7 +229,6 @@ def materias(request):
         return HttpResponse(json_data, content_type='application/json')
 
 
-
 def asignacion(request):
     lista_guardado = []
     lista_errores = []
@@ -270,4 +269,42 @@ def asignacion(request):
         json_data = json.dumps(lista_guardado)
         return HttpResponse(json_data, content_type='application/json')
 
-    
+
+def asocial_materia(request):
+    estudiante = request.POST['id_estudiante']
+    lista_materias = request.POST['materias']
+    asociacion = {}
+    lista_asociacion = []
+    for i in lista_materias:
+        asociacion = {
+            'odigo_materia': lista_materias,
+            'id_estudiante': estudiante,
+        }
+        lista_asociacion.append(asociacion)
+        asociacion = {}
+    materias = Materia(**lista_asociacion)
+    materias.save()
+    json_data = json.dumps(lista_asociacion)
+    return HttpResponse(json_data, content_type='application/json')
+
+
+def materias_no_asociadas(request, pk):
+    lista_consulta = []
+    diccionario_consulta = {}
+    asignacion = Asignacion.objects.filter(id_estudiante__pk=pk)
+    lista_asig = []
+    for l in asignacion:
+        lista_asig.append(l.codigo_materia.id)
+    lista_materias = Materia.objects.all()
+    for m in lista_materias:
+        if m.id not in lista_asig:
+            diccionario_consulta = {
+                'id': m.id,
+                'materia_no_asignada': m.nombre,
+            }
+            lista_consulta.append(diccionario_consulta)
+            diccionario_consulta = {}
+
+    json_data = json.dumps(lista_consulta)
+
+    return HttpResponse(json_data, content_type='application/json')
