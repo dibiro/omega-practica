@@ -316,13 +316,15 @@ def materias_asociadas_estudiante(request, pk):
     return HttpResponse(json_data, content_type='application/json')
 
 
-def eliminar_estudiante(request, pk):
+def eliminar_estudiante(request, pk, estado):
     estudiante = Estudiante.objects.get(id__pk=pk)
-    estudiante.delete()
-    return HttpResponse('Estudante Eliminado')
+    estudiante.estado = estado
+    estudiante.save()
+    return HttpResponse('Estudiante Eliminado')
 
 
-def eliminar_materia(request, pk):
+def eliminar_materia(request, pk, estado):
     materia = Materia.objects.get(id__pk=pk)
-    materia.delete()
+    materia.estado = estado
+    materia.save()
     return HttpResponse('Materia Eliminada')

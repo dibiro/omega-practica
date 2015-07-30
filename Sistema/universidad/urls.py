@@ -16,6 +16,6 @@ urlpatterns = patterns(
     url(r'^materias_asociadas_estudiante_json/(?P<pk>[0-9]+)', materias_asociadas_estudiante),
     url(r'^asignacion_estudiante_json/(?P<pk>[0-9]+)', vista_asignacion_por_estudiante),
     url(r'^asociar_materia_json/(?P<pk>[0-9]+)', asociar_materia),
-    url(r'^eliminar_estudiante_json/(?P<pk>[0-9]+)', eliminar_estudiante),
-    url(r'^eliminar_materia_json/(?P<pk>[0-9]+)', eliminar_materia),
+    url(r'^eliminar_estudiante_json/(?P<pk>[0-9]+)/(?P<estado>[a-z]+)', eliminar_estudiante),
+    url(r'^eliminar_materia_json/(?P<pk>[0-9]+)/(?P<estado>[a-z]+)', eliminar_materia),
 )
