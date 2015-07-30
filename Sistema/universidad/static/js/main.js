@@ -1,32 +1,19 @@
 $(document).ready(function() { 
-//temporar luego se cambiara de sitio
+
 	var tablaAsignatura= $('#asignaturas').dataTable({
 		'sScrollInfinite':true,
 		'bPaginate':false,
 		'searching':false,
 	});
-	//contenedor de asignaturas
 	var asignatura= $('.contenedor-asignatura');
-	//ocultando las asignaturas al iniciar la pagina
-
-	 asignatura.hide();
-
-	//boton para  mostrar el contenedor de asignaturas
-	$('.asignatura').on("click", function(){
-		alert("me ejecuto");
-		muestrame(asignatura);
-	});
-
-	fill_student();
+	asignatura.hide();
+	fill_student(asignatura);
 	fill_materia();
 
 })
-//mostrando asignaturas
-function muestrame(asignatura){
-	asignatura.show(1000);
-}
-//llenado de la dataTable estudiantes 
-	function fill_student () {
+
+
+	function fill_student (asignatura) {
 		var tablaEstudiante= $('#estudiantes').dataTable({
 			'scrollX':true
 		});
@@ -40,11 +27,16 @@ function muestrame(asignatura){
 			 addData.push(val.cedula);
 			 addData.push(val.edad);
 			 addData.push(val.email);
-			 addData.push("<a class='btn btn-success' class='asignatura'>asignatura</a>");
+			 addData.push("<button class='btn btn-success asignaturas' value='"+val.id_estudiantee+"' >asignatura</button>");
 			 tablaEstudiante.fnAddData(addData);
 
 		});
 		tablaEstudiante.fnAdjustColumnSizing();
+
+		$('.asignaturas').on("click", function(){	
+		asignatura.show(1000);
+		fill_asignatura()
+	});
 	})
 
 
@@ -64,9 +56,9 @@ function muestrame(asignatura){
 
 	}
 
-
-/**asignaciones
-	$.getJSON('/unerg/asignacion_json', function(json, textStatus) {
+	function fill_asignatura(){
+	var id= $('.asignaturas').attr('value')
+	$.getJSON('/unerg/asignacion_estudiante_json/'+id, function(json, textStatus) {
 		$.each(json, function(index, val) {
 			 var addData=[];
 			 addData.push(val.materia_asignada)
@@ -75,5 +67,4 @@ function muestrame(asignatura){
 		tablaMateria.fnAdjustColumnSizing();
 
 	});
-);
-**/
+}
