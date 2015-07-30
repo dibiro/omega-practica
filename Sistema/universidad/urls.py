@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from .views import vista_materias, estudiante, materias, asignacion, vista_asignacion_por_estudiante, vista_asignacion, vista_estudiante, VistaPrincipal, vista_estudiante_cedula, vista_materias_nombre
+from .views import vista_materias, materias_asociadas_estudiante, materias_no_asociadas, estudiante, materias, asignacion, vista_asignacion_por_estudiante, vista_asignacion, vista_estudiante, VistaPrincipal, vista_estudiante_cedula, vista_materias_nombre
 
 urlpatterns = patterns(
     url(r'^index/', VistaPrincipal.as_view()),
@@ -11,5 +11,7 @@ urlpatterns = patterns(
     url(r'^asignacion_json/', vista_asignacion),
     url(r'^estudiante_cedula_json/', vista_estudiante_cedula),
     url(r'^materias_nombre_json/', vista_materias_nombre),
+    url(r'^materias_no_asociadas_json/(?P<pk>[0-9]+)', materias_no_asociadas),
+    url(r'^materias_asociadas_estudiante_json/(?P<pk>[0-9]+)', materias_asociadas_estudiante),
     url(r'^asignacion_estudiante_json/(?P<pk>[0-9]+)', vista_asignacion_por_estudiante),
 )
