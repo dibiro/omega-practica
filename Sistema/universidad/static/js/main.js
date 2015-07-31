@@ -125,14 +125,12 @@ function Agregando(direccion,valores){
         data: valores,
     })
     .done(function() {
-        alert("success");
+       fill_student();
+       fill_materia();
     })
     .fail(function() {
         console.log("error");
     })
-    .always(function() {
-        console.log("complete");
-    });
     
 
 };
@@ -177,7 +175,8 @@ function evento_click_asigna(){
     })
 }
 function evento_click_guardarUsuario(){
-    $('.agregar').submit(function() {
+    $('.agregar').submit(function(event) {
+        event.preventDefault()
        Agregando($(this).attr('action'),$(this).serialize());
     })
 }
