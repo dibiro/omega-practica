@@ -121,8 +121,10 @@ def vista_materias_nombre(request):
 
 
 def estudiante(request):
+    import ipdb; ipdb.set_trace()
     msg = ''
     lista_errores = []
+
     if request.POST['nombre'] is '':
         msg = 'El nombre no puede estar vacio '
         lista_errores.append(msg)
@@ -174,7 +176,7 @@ def materias(request):
         return HttpResponse(json_data, content_type='application/json')
     else:
         materia = Materia.objects.create(
-            nombre=request.POST['nombre']
+            nombre=request.POST['nombre_materia']
         )
         materia.save()
 
