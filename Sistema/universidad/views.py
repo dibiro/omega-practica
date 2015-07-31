@@ -320,54 +320,70 @@ def eliminar_materia(request, pk):
 
 def actualizar_estudiante(request, pk):
     msg = ''
+    lista_errores = []
     try:
         estudiante = Estudiante.objects.get(id=pk)
     except:
         msg = 'Estudiante no existe'
-
+        lista_errores.append(msg)
     if msg is '':
-        if request.POST['nombre'] is not '':
-            estudiante.first_name = request.POST['nombre']
-            if request.POST['apellido'] is not '':
-                estudiante.last_name = request.POST['apellido']
-                if request.POST['cedula'] is not '' and int(request.POST['cedula']):
-                    estudiante.cedula = request.POST['cedula']
-                    if request.POST['edad'] is not '' and int(request.POST['edad']):
-                        estudiante.edad = request.POST['edad']
-                        if request.POST['email'] is not '':
-                            estudiante.first_name = request.POST['email']
-                            estudiante.save()
-                            msg = 'Reguistro del Estudiante %s %s C.I: %s cambiado' % (estudiante.first_name, estudiante.last_name, estudiante.ceduala)
-                        else:
-                            msg = 'No se pueden guardar el correo vacio'
-                    else:
-                        msg = 'No se pueden guardar la edad vacio o no es un campo numerico'
-                else:
-                    msg = 'No se pueden guardar la cedula vacio o no es un campo numerico'
-            else:
-                msg = 'No se pueden guardar Apellidos vacio'
-        else:
-            msg = 'No se pueden guardar Nombres vacio'
-    json_data = json.dumps(msg)
+        if request.POST['nombre'] is '':
+            msg = 'El nombre no puede estar vacio'
+            lista_errores.append(msg)
+        if request.POST['apellido'] is '':
+            msg = 'El apellido no puede estar vacio'
+            lista_errores.append(msg)
+        if request.POST['cedula'] is '':
+            msg = 'La cedula no puede estar vacia'
+            lista_errores.append(msg)
+        if int(request.POST['cedula']):
+            msg = 'la cedula debe ser un numero'
+            lista_errores.append(msg)
+        if request.POST['edad'] is not '':
+            msg = 'No se pueden guardar la edad vacia'
+            lista_errores.append(msg)
+        if int(request.POST['edad']):
+            msg = 'La edad deb ser un numero'
+            lista_errores.append(msg)
+        if int(request.POST['edad']) < 0 or int(request.POST['edad']) > 140:
+            msg = 'La edad no puede ser mayor de 140 años ni menor a 0'
+            lista_errores.append(msg)
+        if request.POST['email'] is not '':
+            msg = 'El Correo no puede estar vacio'
+            lista_errores.append(msg)
+    if msg is '':
+        estudiante.first_name = request.POST['nombre']
+        estudiante.last_name = request.POST['apellido']
+        estudiante.cedula = request.POST['cedula']
+        estudiante.edad = request.POST['edad']
+        estudiante.email = request.POST['email']
+        estudiante.save()
+    if len(lista_errores) > 0:
+        json_data = json.dumps(lista_errores)
+    else:
+        json_data = serializers.serialize('json', estudiante, fields=('first_name', 'id', 'last_name', 'cedula', 'edad', 'email'))
     return HttpResponse(json_data, content_type='application/json')
 
 
 def actualizar_materia(request, pk):
     msg = ''
+    lista_errores = []
     try:
-        materia = Materia.objects.get(id=pk)
+        materias = Materia.objects.get(id=pk)
     except:
-        msg = 'Materia no existe'
-
+        msg = 'materias no existe'
+        lista_errores.append(msg)
     if msg is '':
-        if request.POST['nombre_materia'] is not '':
-            materia.nombre = request.POST['nombre_materia']
-        else:
-            msg = 'No se pueden guardar el nombre de la materia vacio'
-
-    materia.save()
-    msg = 'Reguistro del Materia %s cambiado' % (materia.nombre)
-    json_data = json.dumps(msg)
+        if request.POST['nombre_materia'] is '':
+            msg = 'El nombre de la materia no puede venir vacio'
+            lista_errores.append(msg)
+    if msg is '':
+        materias.nmbre = request.POST['nombre_materia']
+        materias.save()
+    if len(lista_errores) > 0:
+        json_data = json.dumps(lista_errores)
+    else:
+        json_data = serializers.serialize('json', materias, fields=('nombre', 'id'))
     return HttpResponse(json_data, content_type='application/json')
 
 
