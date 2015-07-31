@@ -90,7 +90,7 @@ def vista_materias(request):
     lista_consulta = []
     for i in materias:
         diccionario_consulta = {
-            'id': i.id,
+            'id_materia': i.id,
             'nombre': i.nombre,
             'estado': i.estado,
         }
@@ -120,85 +120,39 @@ def vista_materias_nombre(request):
 
 
 def estudiante(request):
-    lista_guardado = []
+    msg = ''
     lista_errores = []
-    if request.POST['nombre'] is not '':
-
-        diccionario_consulta = {
-            'first_name': request.POST['nombre'],
-        }
-        lista_guardado.append(diccionario_consulta)
-        diccionario_consulta = {}
-        if request.POST['apellido'] is not '':
-            diccionario_consulta = {
-                'last_name': request.POST['apellido'],
-            }
-            lista_guardado.append(diccionario_consulta)
-            diccionario_consulta = {}
-
-            if request.POST['edad'] is not '' and int(request.POST['edad']):
-                diccionario_consulta = {
-                    'edad': request.POST['edad'],
-                }
-                lista_guardado.append(diccionario_consulta)
-                diccionario_consulta = {}
-                if request.POST['email'] is not '':
-                    diccionario_consulta = {
-                        'email': request.POST['email'],
-                    }
-                    lista_guardado.append(diccionario_consulta)
-                    diccionario_consulta = {}
-                    if request.POST['ceduala'] is not '':
-                        diccionario_consulta = {
-                            'ceduala': request.POST['ceduala'],
-                        }
-                        lista_guardado.append(diccionario_consulta)
-                        diccionario_consulta = {}
-
-                    else:
-                        diccionario_consulta = {
-                            'cedula': 'Falta Colocar el cedula',
-                        }
-                        lista_errores.append(diccionario_consulta)
-                        diccionario_consulta = {}
-                        json_data = json.dumps(lista_errores)
-                else:
-                    diccionario_consulta = {
-                        'emails': 'Falta Colocar el email',
-                    }
-                    lista_guardado.append(diccionario_consulta)
-                    diccionario_consulta = {}
-                    json_data = json.dumps(lista_errores)
-            else:
-                diccionario_consulta = {
-                    'edads': 'Falta Colocar el Edad o No un valor numerico',
-                }
-                lista_errores.append(diccionario_consulta)
-                diccionario_consulta = {}
-                json_data = json.dumps(lista_errores)
-        else:
-            diccionario_consulta = {
-                'Apellidos': 'Falta Colocar el Apellido',
-            }
-            lista_errores.append(diccionario_consulta)
-            diccionario_consulta = {}
-            json_data = json.dumps(lista_errores)
-    else:
-        diccionario_consulta = {
-            'nombre': 'Falta Colocar el Nombre',
-        }
-        lista_errores.append(diccionario_consulta)
-        diccionario_consulta = {}
+    if request.POST['nombre'] is '':
+        msg = 'El nombre no puede estar vacio '
+        lista_errores.append(msg)
+    if request.POST['apellido'] is '':
+        msg = 'El apellido no puede estar vacio'
+        lista_errores.append(msg)
+    if request.POST['edad'] is '':
+        msg = 'La edad no puede estar vacia'
+        lista_errores.append(msg)
+    if request.POST['email'] is '':
+        msg = 'El email no puede estar vacio'
+        lista_errores.append(msg)
+    if request.POST['ceduala'] is '':
+        msg = 'La cedula no puede estar vacia'
+        lista_errores.append(msg)
+    if int(request.POST['edad']):
+        msg = 'La edad tiene que ser un valor numerico'
+        lista_errores.append(msg)
+    if int(request.POST['ceduala']):
+        msg = 'La cedula tiene que ser una valor numerico'
+        lista_errores.append(msg)
 
     if len(lista_errores) > 0:
         json_data = json.dumps(lista_errores)
 
         return HttpResponse(json_data, content_type='application/json')
     else:
-        estudiante = Estudiante(**lista_guardado)
+        estudiante = Estudiante.objects.create(first_name=request.POST['nombre'], last_name=request.POST['apellido'], ceduala=request.POST['cedula'], edad=request.POST['edad'], email['email'])
         estudiante.save()
 
-        json_data = json.dumps(lista_guardado)
+        json_data = json.dumps(estudiante)
         return HttpResponse(json_data, content_type='application/json')
 
 
@@ -233,21 +187,21 @@ def materias(request):
 
 def asignacion(request, pk):
     lista_guardado = []
-    lista_materias = request.POST.get['lista_para_asociar']
-    diccionario_consulta = {}
-    if len(lista_materias) > 0:
-        for i in lista_materias:
-            diccionario_consulta = {
-                'codigo_materia': i,
-                'id_estudiante': pk,
-            }
-            lista_guardado.append(diccionario_consulta)
-            diccionario_consulta = {}
-        json_data = json.dumps(lista_guardado)
-        asignacion = Asignacion(**lista_guardado)
-        asignacion.save()
+    codigo = request.POST['codigo_materia']
+    msg = ''
+    try:
+        estudiante = Estudiante.objects.get(id=pk)
+        materia = Materia.objects.get(id=codigo)
+    except:
+        if estudiante is '':
+            msg = msg + 'Estudiante no existe o valor invalido '
+        if materia is '':
+            msg = msg + 'Materia no existe o valor invalido'
+    json_data = json.dumps(lista_guardado)
+    asignacion = Asignacion(**lista_guardado)
+    asignacion.save()
 
-        return HttpResponse(json_data, content_type='application/json')
+    return HttpResponse(json_data, content_type='application/json')
 
 
 def desasignacion(request, pk):
@@ -425,3 +379,4 @@ def actualizar_asignacion(request, pk):
         msg = 'Reguistro del Asignacion del estudiante %s %s %s con la materia %s cambiado' % (asignacion.id_estudiante.first_name, asignacion.id_estudiante.last_name, asignacion.id_estudiante.cedula, asignacion.codigo_materia.nombre)
     json_data = json.dumps(msg)
     return HttpResponse(json_data, content_type='application/json')
+
