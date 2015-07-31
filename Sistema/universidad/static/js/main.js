@@ -53,7 +53,7 @@ function fill_student () {
 }
 
 function fill_materia(){
-
+    tablaMateria.fnClearTable()
     $.getJSON('/unerg/materias_json', function(json, textStatus) {
         $.each(json, function(index, val) {
             var addData=[];
@@ -125,12 +125,16 @@ function Agregando(direccion,valores){
         data: valores,
     })
     .done(function() {
-       fill_student();
-       fill_materia();
+       
+       
     })
     .fail(function() {
         console.log("error");
     })
+    .always(function() {
+        fill_materia();
+       fill_student();
+    });
     
 
 };
