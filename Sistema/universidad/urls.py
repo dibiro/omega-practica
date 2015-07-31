@@ -9,7 +9,7 @@ urlpatterns = patterns(
     url(r'^materias_guardar_json/', materias),
 <<<<<<< HEAD
     url(r'^materias_actualizar_json/', actualizar_materia),
-    url(r'^asignacion_guardar_json/(?P<pk>[0-9]+)/', asignacion),
+    url(r'^asignacion_guardar_json/(?P<pk>[0-9]+)', asignacion),
     url(r'^asignacion_actualizar_json/(?P<pk>[0-9]+)', actualizar_asignacion),
 =======
     url(r'^materias_actualizar_json/(?P<pk>[0-9]+)/', actualizar_materia),

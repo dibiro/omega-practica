@@ -104,7 +104,7 @@
         <h4 class="modal-title" id="myModalLabel">Añadir Estudiante</h4>
       </div>
       <div class="modal-body">
-        <form role="form" data-toggle="validator" name='estudiante' id='estudiante' method='POST' >
+        <form role="form" data-toggle="validator" name='estudiante' id='estudiante' method='POST' >{% csrf_token %}
            
         	<div class="form-group">
         		<label for="nombre">Nombre</label>
@@ -145,19 +145,19 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Añadir Materia</h4>
       </div>
-      <div class="modal-body">
-        <form name='materia' id='materia' method='POST'>
+        <form name='materia' id='materia' method='POST'>{% csrf_token %}
+        <div class="modal-body">
         	<div class="form-group">
         		<label for="nombre">Materia</label>
         		<input type="text" class="form-control" id="nombre" name="nombre_materia" required>
         	</div>
-
-        </form>
+       
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary Guardar">Guardar Cambios</button>
-      </div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        	<button type="button" class="btn btn-primary Guardar">Guardar Cambios</button>
+      	</div>
+      </form>
     </div>
   </div>
 </div>
