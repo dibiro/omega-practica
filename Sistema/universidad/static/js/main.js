@@ -4,7 +4,25 @@ $(document).ready(function() {
     fill_student();
     fill_materia();
     evento_click_guardarUsuario();
+
 })
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
 
 var asignatura= $('.contenedor-asignatura');
 var tablaEstudiante= $('#estudiantes').dataTable({
@@ -114,7 +132,8 @@ function update_relation(id_estudiante , id_materia) {
         url: '/unerg/asignacion_guardar_json/'+id_estudiante,
         type: 'POST',
         dataType: 'json',
-        data: { token: 'csrf_token' ,'codigo_materia':id_materia },
+        data: {'codigo_materia':id_materia },
+        beforeSend: cook()
     })
     .done(function() {
         console.log("success");
@@ -125,6 +144,11 @@ function update_relation(id_estudiante , id_materia) {
     .always(function() {
         fill_asignaturas(id_estudiante);
     });
+    function cook(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        
+        };
+
 }
 function update_desasigna(id_materia,id_estudiante) {
 
@@ -139,7 +163,7 @@ function Agregando(direccion,valores){
         type: 'POST',
         dataType: 'json',
         data: valores,
-    })
+        })
     .done(function() {
 
 
