@@ -346,7 +346,7 @@ def actualizar_estudiante(request, pk):
             msg = 'La edad deb ser un numero'
             lista_errores.append(msg)
         if int(request.POST['edad']) < 0 or int(request.POST['edad']) > 140:
-            msg = 'La edad no puede ser mayor de 140 años ni menor a 0'
+            msg = 'La edad no puede ser mayor de 140 ni menor a 0'
             lista_errores.append(msg)
         if request.POST['email'] is not '':
             msg = 'El Correo no puede estar vacio'
