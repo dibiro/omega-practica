@@ -55,7 +55,7 @@ def vista_asignacion_por_estudiante(request, pk):
     lista_consulta = []
     for i in asignacion:
         diccionario_consulta = {
-            'id': i.id,
+            'id_asignacion': i.id,
             'materia_asignada': i.codigo_materia.nombre,
         }
         lista_consulta.append(diccionario_consulta)
@@ -109,7 +109,7 @@ def vista_materias_nombre(request):
     for i in materias:
         if request.POST['nombre'] == i.nombre:
             diccionario_consulta = {
-                'id': i.id,
+                'id_materia': i.id,
                 'nombre': i.nombre,
             }
             lista_consulta.append(diccionario_consulta)
@@ -141,13 +141,12 @@ def estudiante(request):
     if int(request.POST['edad']):
         msg = 'La edad tiene que ser un valor numerico'
         lista_errores.append(msg)
-    if int(request.POST['ceduala']):
+    if int(request.POST['cedula']):
         msg = 'La cedula tiene que ser una valor numerico'
         lista_errores.append(msg)
 
     if len(lista_errores) > 0:
         json_data = json.dumps(lista_errores)
-
         return HttpResponse(json_data, content_type='application/json')
     else:
         estudiante = Estudiante.objects.create(
@@ -159,7 +158,7 @@ def estudiante(request):
         )
         estudiante.save()
 
-        json_data = json.dumps(estudiante)
+        json_data = serializers.serialize('json', estudiante, fields=('first_name', 'id', 'last_name', 'cedula', 'edad', 'email'))
         return HttpResponse(json_data, content_type='application/json')
 
 
@@ -218,12 +217,22 @@ def asignacion(request, pk):
 
 
 def desasignacion(request, pk):
-    lista_materias = request.POST.get['lista_para_desasociar']
-    if len(lista_materias) > 0:
-        for i in lista_materias:
-            asignacion = Asignacion.objects.get(id__pk=i)
-            asignacion.delete()
-    return HttpResponse('materias desvinculada')
+    msg = ''
+    lista_errores = []
+    try:
+        asignacion = Asignacion.objects.get(id=pk)
+    except:
+        if asignacion is '':
+            msg = 'Asignacion no existe o valor invalido'
+            lista_errores.append(msg)
+
+    if msg is '':
+        asignacion = Asignacion.objects.get(id=pk)
+        asignacion.delete()
+        json_data = json.dumps('Asignacion Eliminada')
+    else:
+        json_data = json.dumps(lista_errores)
+    return HttpResponse(json_data, content_type='application/json')
 
 
 def asociar_materia(request):
@@ -273,7 +282,7 @@ def materias_asociadas_estudiante(request, pk):
 
     for i in asignacion:
         diccionario_consulta = {
-            'id': i.id,
+            'id_asignacion': i.id,
             'materia_asignada': i.codigo_materia.nombre,
         }
         lista_consulta.append(diccionario_consulta)
