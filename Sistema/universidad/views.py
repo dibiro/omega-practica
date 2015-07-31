@@ -163,31 +163,22 @@ def estudiante(request):
 
 
 def materias(request):
-    lista_guardado = []
+    msg = ''
     lista_errores = []
-    if request.POST['nombre_materia'] is not '':
-
-        diccionario_consulta = {
-            'nombre': request.POST['nombre_materia'],
-        }
-        lista_guardado.append(diccionario_consulta)
-        diccionario_consulta = {}
-    else:
-        diccionario_consulta = {
-            'nombre': 'Falta Colocar el Nombre de la Materia',
-        }
-        lista_errores.append(diccionario_consulta)
-        diccionario_consulta = {}
+    if request.POST['nombre_materia'] is '':
+        msg = 'El nombre no puede estar vacio '
+        lista_errores.append(msg)
 
     if len(lista_errores) > 0:
         json_data = json.dumps(lista_errores)
-
         return HttpResponse(json_data, content_type='application/json')
     else:
-        materias = Materia(**lista_guardado)
-        materias.save()
+        materia = Materia.objects.create(
+            nombre=request.POST['nombre']
+        )
+        materia.save()
 
-        json_data = json.dumps(lista_guardado)
+        json_data = serializers.serialize('json', materia, fields=('nombre', 'id'))
         return HttpResponse(json_data, content_type='application/json')
 
 
@@ -401,4 +392,3 @@ def actualizar_asignacion(request, pk):
         msg = 'Reguistro del Asignacion del estudiante %s %s %s con la materia %s cambiado' % (asignacion.id_estudiante.first_name, asignacion.id_estudiante.last_name, asignacion.id_estudiante.cedula, asignacion.codigo_materia.nombre)
     json_data = json.dumps(msg)
     return HttpResponse(json_data, content_type='application/json')
-
