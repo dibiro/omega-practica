@@ -7,15 +7,12 @@ urlpatterns = patterns(
     url(r'^estudiante_guardar_json/', estudiante),
     url(r'^estudiante_actualizar_json/(?P<pk>[0-9]+)/', actualizar_estudiante),
     url(r'^materias_guardar_json/', materias),
-<<<<<<< HEAD
     url(r'^materias_actualizar_json/', actualizar_materia),
     url(r'^asignacion_guardar_json/(?P<pk>[0-9]+)', asignacion),
     url(r'^asignacion_actualizar_json/(?P<pk>[0-9]+)', actualizar_asignacion),
-=======
     url(r'^materias_actualizar_json/(?P<pk>[0-9]+)/', actualizar_materia),
     url(r'^asignacion_guardar_json/(?P<pk>[0-9]+)/', asignacion),
     url(r'^asignacion_actualizar_json/(?P<pk>[0-9]+)/', actualizar_asignacion),
->>>>>>> 8234dfda84d4b87cf2362a42c14d0d6439882e15
     url(r'^asignacion_eliminar_json/(?P<pk>[0-9]+)', desasignacion),
     url(r'^materias_json/', vista_materias),
     url(r'^asignacion_json/', vista_asignacion),
