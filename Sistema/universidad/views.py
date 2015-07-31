@@ -218,12 +218,22 @@ def asignacion(request, pk):
 
 
 def desasignacion(request, pk):
-    lista_materias = request.POST.get['lista_para_desasociar']
-    if len(lista_materias) > 0:
-        for i in lista_materias:
-            asignacion = Asignacion.objects.get(id__pk=i)
-            asignacion.delete()
-    return HttpResponse('materias desvinculada')
+    msg = ''
+    lista_errores = []
+    try:
+        asignacion = Asignacion.objects.get(id=pk)
+    except:
+        if asignacion is '':
+            msg = 'Asignacion no existe o valor invalido'
+            lista_errores.append(msg)
+
+    if msg is '':
+        asignacion = Asignacion.objects.get(id=pk)
+        asignacion.delete()
+        json_data = json.dumps('Asignacion Eliminada')
+    else:
+        json_data = json.dumps(lista_errores)
+    return HttpResponse(json_data, content_type='application/json')
 
 
 def asociar_materia(request):
