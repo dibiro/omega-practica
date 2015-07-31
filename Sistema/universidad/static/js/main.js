@@ -3,9 +3,9 @@ $(document).ready(function() {
     asignatura.hide();
     fill_student();
     fill_materia();
-
-
+    
 })
+
 var asignatura= $('.contenedor-asignatura');
 var tablaEstudiante= $('#estudiantes').dataTable({
     'scrollX':true
@@ -34,29 +34,21 @@ function fill_student () {
             addData.push(val.cedula);
             addData.push(val.edad);
             addData.push(val.email);
-            if (val.id_estudiantee) {
-            	addData.push("<div class='make-switch' class='estado' ><input type='checkbox' name='my-checkbox' data-id="+val.id_estudiantee+" checked></div>");
+            if (val.estado) {
+            	addData.push("<div class='make-switch' class='estado' ><input type='checkbox' class='status' data-id="+val.id_estudiantee+" checked></div>");
             }
             else{
-            	addData.push("<div class='make-switch' class='estado' ><input type='checkbox' name='my-checkbox' data-id="+val.id_estudiantee+"> </div>");
+            	addData.push("<div class='make-switch' class='estado' ><input type='checkbox' class='status' data-id="+val.id_estudiantee+"> </div>");
             }
             addData.push("<button class='btn btn-success asignaturas' data-id="+val.id_estudiantee+">asignatura</button>");
             tablaEstudiante.fnAddData(addData);
 
         });
+        instanciandoSwitch();
         evento_click_asociaciones();
         evento_click_estudiante();
-        $("[name='my-checkbox']").bootstrapSwitch({
-        	'size':'mini',
-        	'onColor':'success',
-        	'offColor':'danger',
-        	'handleWidth':10,
-        	'labelWidth':5,
-        	'onText':"<i class='icon-user-check'></i>",
-        	'offText':"<i class='icon-cross'></i>"
-        });
         tablaEstudiante.fnAdjustColumnSizing();
-      
+
     })
 }
 
@@ -80,18 +72,11 @@ function fill_asignaturas(id){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.materia_asignada);
-            addData.push("<div class='make-switch'><input type='checkbox'  name='asignar' checked></div>")
+            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' data-id='"+val.id_materia+"checked></div>")
             tablaAsignatura.fnAddData(addData);
         });
-        $("[name='asignar']").bootstrapSwitch({
-        	'size':'mini',
-        	'onColor':'success',
-        	'offColor':'danger',
-        	'handleWidth':10,
-        	'labelWidth':5,
-        	'onText':"<i class='icon-check'></i>",
-        	'offText':"<i class='icon-cross'></i>"
-        });
+       instanciandoSwitch();
+       evento_click_asigna();
         tablaAsignatura.fnAdjustColumnSizing();
 
   
@@ -100,22 +85,13 @@ function fill_asignaturas(id){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.materia_no_asignada);
-            addData.push("<div class='make-switch'><input type='checkbox'  name='asignar' ></div>")
+            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' ></div>")
             tablaAsignaturaNoAsociadas.fnAddData(addData);
         });
-        $("[name='asignar']").bootstrapSwitch({
-        	'size':'mini',
-        	'onColor':'success',
-        	'offColor':'danger',
-        	'handleWidth':10,
-        	'labelWidth':5,
-        	'onText':"<i class='icon-check'></i>",
-        	'offText':"<i class='icon-cross'></i>"
-        });
-
+        instanciandoSwitch();
+        evento_click_asigna();
         tablaAsignaturaNoAsociadas.fnAdjustColumnSizing();
 
-  
     });
  }
  function update_state(id){
@@ -130,8 +106,35 @@ function evento_click_estudiante () {
         fill_asignaturas($(this).data('id'));
     });
 }
+function instanciandoSwitch(){
+    $(".status").bootstrapSwitch({
+            'size':'mini',
+            'onColor':'success',
+            'offColor':'danger',
+            'handleWidth':10,
+            'labelWidth':5,
+            'onText':"<i class='icon-user-check'></i>",
+            'offText':"<i class='icon-cross'></i>"
+        });
+     $(".asigna").bootstrapSwitch({
+            'size':'mini',
+            'onColor':'success',
+            'offColor':'danger',
+            'handleWidth':10,
+            'labelWidth':5,
+            'onText':"<i class='icon-check'></i>",
+            'offText':"<i class='icon-cross'></i>"
+        });
+
+}
 function evento_click_asociaciones(){
-	$("[name='my-checkbox']").on('switchChange.bootstrapSwitch', function(event) {
+	$('.status').on('switchChange.bootstrapSwitch', function(event) {
         update_state($(this).data('id'));
     });	
+}
+function evento_click_asigna(){
+    $('.asigna').on('switchChange.bootstrapSwitch',function(event){
+        alert($(this).data('id'));
+        //update_relation($(this).data('id'));
+    })
 }
