@@ -135,7 +135,7 @@ def estudiante(request):
     if request.POST['email'] is '':
         msg = 'El email no puede estar vacio'
         lista_errores.append(msg)
-    if request.POST['ceduala'] is '':
+    if request.POST['cedula'] is '':
         msg = 'La cedula no puede estar vacia'
         lista_errores.append(msg)
     if int(request.POST['edad']):
