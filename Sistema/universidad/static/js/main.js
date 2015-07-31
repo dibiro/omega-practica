@@ -72,7 +72,7 @@ function fill_asignaturas(id){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.materia_asignada);
-            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' data-id='"+val.id_materia+"' checked></div>")
+            addData.push("<div class='make-switch id_asignacion' data-id='"+id+"'><input type='checkbox'  class='asigna' data-id='"+val.id_asignacion  +"' checked></div>")
             tablaAsignatura.fnAddData(addData);
         });
        instanciandoSwitch();
@@ -85,7 +85,7 @@ function fill_asignaturas(id){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.materia_no_asignada);
-            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' data-id='"+val.codigo_materia+"'></div>")
+            addData.push("<div class='make-switch id_asignacion'data-id='"+id+"'><input type='checkbox'  class='asigna' data-id='"+val.codigo_materia+"'></div>")
             tablaAsignaturaNoAsociadas.fnAddData(addData);
         });
         instanciandoSwitch();
@@ -98,11 +98,30 @@ function fill_asignaturas(id){
  	$.get('/unerg/eliminar_estudiante_json/'+id,id);
  
  }
+ function update_relation(id_estudiante , id_materia) {
+    
+    $.ajax({
+        url: '/unerg/asignacion_guardar_json/'+id_estudiante,
+        type: 'POST',
+        dataType: 'json',
+        data: { 'codigo_materia':id_materia },
+    })
+.done(function() {
+    console.log("success");
+})
+.fail(function() {
+    console.log("error");
+})
+.always(function() {
+    console.log("complete");
+});
+
+}
 
 function evento_click_estudiante () {
     $('.asignaturas').unbind('click');
     $('.asignaturas').on('click', function() {
-    	asignatura.show(3000);
+    	asignatura.show(2000);
         fill_asignaturas($(this).data('id'));
     });
 }
@@ -134,7 +153,7 @@ function evento_click_asociaciones(){
 }
 function evento_click_asigna(){
     $('.asigna').on('switchChange.bootstrapSwitch',function(event){
-        alert($(this).data('id'));
-        //update_relation($(this).data('id'));
+       update_relation($('.id_asignacion').data('id'),$(this).data('id'));
+        
     })
 }
