@@ -1,4 +1,5 @@
 import json
+from django.core import serializers
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import Estudiante, Materia, Asignacion
@@ -192,7 +193,6 @@ def materias(request):
 
 
 def asignacion(request, pk):
-    lista_guardado = []
     lista_errores = []
     codigo = request.POST['codigo_materia']
     msg = ''
@@ -213,9 +213,8 @@ def asignacion(request, pk):
         asignacion = Asignacion.objects.create(codigo_materia=codigo, id_estudiante=pk)
         asignacion.save()
 
-        json_data = json.dumps(lista_guardado)
-        return HttpResponse(json_data, content_type='application/json')    
-    
+        json_data = serializers.serialize('json', asignacion, fields=('codigo_materia', 'id', 'id_estudiante'))
+        return HttpResponse(json_data, content_type='application/json')
 
 
 def desasignacion(request, pk):
@@ -256,7 +255,7 @@ def materias_no_asociadas(request, pk):
     for m in lista_materias:
         if m.id not in lista_asig:
             diccionario_consulta = {
-                'id': m.id,
+                'codigo_materia': m.id,
                 'materia_no_asignada': m.nombre,
             }
             lista_consulta.append(diccionario_consulta)
