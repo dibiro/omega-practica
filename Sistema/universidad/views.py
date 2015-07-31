@@ -149,7 +149,13 @@ def estudiante(request):
 
         return HttpResponse(json_data, content_type='application/json')
     else:
-        estudiante = Estudiante.objects.create(first_name=request.POST['nombre'], last_name=request.POST['apellido'], ceduala=request.POST['cedula'], edad=request.POST['edad'], email['email'])
+        estudiante = Estudiante.objects.create(
+            first_name=request.POST['nombre'],
+            last_name=request.POST['apellido'],
+            cedula=request.POST['cedula'],
+            edad=request.POST['edad'],
+            email=request.POST['email']
+        )
         estudiante.save()
 
         json_data = json.dumps(estudiante)
@@ -187,6 +193,7 @@ def materias(request):
 
 def asignacion(request, pk):
     lista_guardado = []
+    lista_errores = []
     codigo = request.POST['codigo_materia']
     msg = ''
     try:
@@ -194,14 +201,21 @@ def asignacion(request, pk):
         materia = Materia.objects.get(id=codigo)
     except:
         if estudiante is '':
-            msg = msg + 'Estudiante no existe o valor invalido '
+            msg = 'Estudiante no existe o valor invalido'
+            lista_errores.append(msg)
         if materia is '':
-            msg = msg + 'Materia no existe o valor invalido'
-    json_data = json.dumps(lista_guardado)
-    asignacion = Asignacion(**lista_guardado)
-    asignacion.save()
+            msg = 'Materia no existe o valor invalido'
+            lista_errores.append(msg)
+    if len(lista_errores) > 0:
+        json_data = json.dumps(lista_errores)
+        return HttpResponse(json_data, content_type='application/json')
+    else:
+        asignacion = Asignacion.objects.create(codigo_materia=codigo, id_estudiante=pk)
+        asignacion.save()
 
-    return HttpResponse(json_data, content_type='application/json')
+        json_data = json.dumps(lista_guardado)
+        return HttpResponse(json_data, content_type='application/json')    
+    
 
 
 def desasignacion(request, pk):
