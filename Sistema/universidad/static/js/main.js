@@ -72,7 +72,7 @@ function fill_asignaturas(id){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.materia_asignada);
-            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' data-id='"+val.id_materia+"checked></div>")
+            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' data-id='"+val.id_materia+"' checked></div>")
             tablaAsignatura.fnAddData(addData);
         });
        instanciandoSwitch();
@@ -85,7 +85,7 @@ function fill_asignaturas(id){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.materia_no_asignada);
-            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' ></div>")
+            addData.push("<div class='make-switch'><input type='checkbox'  class='asigna' data-id='"+val.codigo_materia+"'></div>")
             tablaAsignaturaNoAsociadas.fnAddData(addData);
         });
         instanciandoSwitch();
