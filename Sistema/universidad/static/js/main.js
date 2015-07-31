@@ -3,7 +3,7 @@ $(document).ready(function() {
     asignatura.hide();
     fill_student();
     fill_materia();
-    
+    evento_click_guardarUsuario();
 })
 
 var asignatura= $('.contenedor-asignatura');
@@ -117,6 +117,23 @@ function fill_asignaturas(id){
 });
 
 }
+function Agregando(direccion,valores){
+    $.ajax({
+        url: direccion,
+        type: 'POST',
+        dataType: 'json',
+        data: valores,
+    })
+    .done(function() {
+       fill_student();
+       fill_materia();
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    
+
+};
 
 function evento_click_estudiante () {
     $('.asignaturas').unbind('click');
@@ -155,5 +172,11 @@ function evento_click_asigna(){
     $('.asigna').on('switchChange.bootstrapSwitch',function(event){
        update_relation($('.id_asignacion').data('id'),$(this).data('id'));
         
+    })
+}
+function evento_click_guardarUsuario(){
+    $('.agregar').submit(function(event) {
+        event.preventDefault()
+       Agregando($(this).attr('action'),$(this).serialize());
     })
 }
