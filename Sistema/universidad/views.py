@@ -224,7 +224,10 @@ def desasignacion(request, pk):
     if msg is '':
         asignacion = Asignacion.objects.get(id=pk)
         asignacion.delete()
-        json_data = json.dumps('Asignacion Eliminada', indent=4)
+        dicc = {
+            'respuesta': 'Asignacion Eliminada'
+        }
+        json_data = json.dumps(dicc, indent=4)
     else:
         json_data = json.dumps(lista_errores, indent=4)
     return HttpResponse(json_data, content_type='application/json')
@@ -399,7 +402,6 @@ def actualizar_materia(request, pk):
             'nombre': materias.nombre,
             'id': materias.id,
         }
-
         json_data = json.dumps(dicc, indent=4)
     return HttpResponse(json_data, content_type='application/json')
 
