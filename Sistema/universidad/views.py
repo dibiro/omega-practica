@@ -138,16 +138,9 @@ def estudiante(request):
     if request.POST.get('cedula', '') is '':
         msg = 'La cedula no puede estar vacia'
         lista_errores.append(msg)
-    if int(request.POST.get('edad', '')):
-        msg = 'La edad tiene que ser un valor numerico'
-        lista_errores.append(msg)
-    if int(request.POST.get('cedula', '')):
-        msg = 'La cedula tiene que ser una valor numerico'
-        lista_errores.append(msg)
 
     if len(lista_errores) > 0:
         json_data = json.dumps(lista_errores, indent=4)
-        return HttpResponse(json_data, content_type='application/json')
     else:
         estudiante = Estudiante.objects.create(
             first_name=request.POST['nombre'],
@@ -157,18 +150,16 @@ def estudiante(request):
             email=request.POST['email']
         )
         estudiante.save()
-
         dicc = {
-            'nombre': estudiante.nombre,
             'id': estudiante.id,
-            'apellido': estudiante.apellido,
+            'nombre': estudiante.first_name,
+            'apellido': estudiante.last_name,
             'cedula': estudiante.cedula,
             'edad': estudiante.edad,
-            'edad': estudiante.email,
+            'email': estudiante.email,
         }
-
         json_data = json.dumps(dicc, indent=4)
-        return HttpResponse(json_data, content_type='application/json')
+    return HttpResponse(json_data, content_type='application/json')
 
 
 def materias(request):
@@ -375,14 +366,13 @@ def actualizar_estudiante(request, pk):
         json_data = json.dumps(lista_errores, indent=4)
     else:
         dicc = {
-            'nombre': estudiante.nombre,
             'id': estudiante.id,
-            'apellido': estudiante.apellido,
+            'nombre': estudiante.first_name,
+            'apellido': estudiante.last_name,
             'cedula': estudiante.cedula,
             'edad': estudiante.edad,
-            'edad': estudiante.email,
+            'email': estudiante.email,
         }
-
         json_data = json.dumps(dicc, indent=4)
     return HttpResponse(json_data, content_type='application/json')
 
