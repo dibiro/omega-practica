@@ -8,7 +8,6 @@
 .contenedor-asignatura{
 	width: 19%;
 	background: #eee;
-	height: 80%;
 	position: absolute;
 	right: 0;
 	top: 57px;
@@ -25,5 +24,4 @@
 	margin-top: 10px;	
 	font-size: 1em	;
 }
-
 

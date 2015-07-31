@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?-tiurhy');
-	src:url('fonts/icomoon.eot?#iefix-tiurhy') format('embedded-opentype'),
-		url('fonts/icomoon.ttf?-tiurhy') format('truetype'),
-		url('fonts/icomoon.woff?-tiurhy') format('woff'),
-		url('fonts/icomoon.svg?-tiurhy#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?-ix2gom');
+	src:url('fonts/icomoon.eot?#iefix-ix2gom') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?-ix2gom') format('truetype'),
+		url('fonts/icomoon.woff?-ix2gom') format('woff'),
+		url('fonts/icomoon.svg?-ix2gom#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,18 +23,27 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-pencil:before {
+.icon-x:before {
 	content: "\e600";
 }
-.icon-pencil2:before {
+.icon-check:before {
 	content: "\e601";
 }
+.icon-pencil:before {
+	content: "\e605";
+}
 .icon-user-plus:before {
+	content: "\e606";
+}
+.icon-user-check:before {
 	content: "\e602";
 }
-.icon-menu:before {
+.icon-cross:before {
 	content: "\e603";
 }
-.icon-checkmark:before {
+.icon-circle-down:before {
+	content: "\e607";
+}
+.icon-eye:before {
 	content: "\e604";
 }
