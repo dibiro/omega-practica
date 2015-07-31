@@ -261,12 +261,13 @@ def materias_no_asociadas(request, pk):
     lista_materias = Materia.objects.all()
     for m in lista_materias:
         if m.id not in lista_asig:
-            diccionario_consulta = {
-                'codigo_materia': m.id,
-                'materia_no_asignada': m.nombre,
-            }
-            lista_consulta.append(diccionario_consulta)
-            diccionario_consulta = {}
+            if m.estado is True:
+                diccionario_consulta = {
+                    'codigo_materia': m.id,
+                    'materia_no_asignada': m.nombre,
+                }
+                lista_consulta.append(diccionario_consulta)
+                diccionario_consulta = {}
 
     json_data = json.dumps(lista_consulta, indent=4)
 
