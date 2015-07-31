@@ -1,3 +1,6 @@
-!/practica/*
+# PyBuilder
 *.pyc
-*.pyo
+*.sqlite3
+*.orig
+*.*~
+nohup.out
