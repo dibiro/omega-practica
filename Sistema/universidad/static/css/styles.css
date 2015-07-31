@@ -1,3 +1,13 @@
+body{
+	background-color: #fff;
+}
+header{
+	background-color: #2E9AFE;
+	color:#f9f9f9 ;
+	-webkit-box-shadow: -22px 0px 51px 0px rgba(131,138,134,1);
+	-moz-box-shadow: -22px 0px 51px 0px rgba(131,138,134,1);
+	box-shadow: -22px 0px 51px 0px rgba(131,138,134,1);
+}
 .dates{
 	background: #eee;
 	width: 80%;
@@ -25,3 +35,9 @@
 	font-size: 1em	;
 }
 
+#asignaturas_Asociadas_info{
+	display:none;
+}
+#asignaturas_noAsociadas_info{
+	display:none;
+}

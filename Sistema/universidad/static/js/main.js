@@ -75,6 +75,7 @@ function fill_materia(){
 
 function fill_asignaturas(id){
     tablaAsignatura.fnClearTable();
+    tablaAsignaturaNoAsociadas.fnClearTable();
     $.getJSON('/unerg/materias_asociadas_estudiante_json/'+id, function(json, textStatus) {
         $.each(json, function(index, val) {
             var addData=[];
@@ -95,18 +96,38 @@ function fill_asignaturas(id){
 
   
     });
+    $.getJSON('/unerg/materias_no_asociadas_json/'+id, function(json, textStatus) {
+        $.each(json, function(index, val) {
+            var addData=[];
+            addData.push(val.materia_no_asignada);
+            addData.push("<div class='make-switch'><input type='checkbox'  name='asignar' ></div>")
+            tablaAsignaturaNoAsociadas.fnAddData(addData);
+        });
+        $("[name='asignar']").bootstrapSwitch({
+        	'size':'mini',
+        	'onColor':'success',
+        	'offColor':'danger',
+        	'handleWidth':10,
+        	'labelWidth':5,
+        	'onText':"<i class='icon-check'></i>",
+        	'offText':"<i class='icon-cross'></i>"
+        });
 
+        tablaAsignaturaNoAsociadas.fnAdjustColumnSizing();
+
+  
+    });
  }
  function update_state(id){
- 	$.get('/unerg/eliminar_estudiante_json/'+id);
+ 	$.get('/unerg/eliminar_estudiante_json/'+id,id);
  
  }
 
 function evento_click_estudiante () {
     $('.asignaturas').unbind('click');
     $('.asignaturas').on('click', function() {
+    	asignatura.show(3000);
         fill_asignaturas($(this).data('id'));
-        asignatura.show(1000);
     });
 }
 function evento_click_asociaciones(){
