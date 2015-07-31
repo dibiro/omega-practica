@@ -305,7 +305,10 @@ def eliminar_estudiante(request, pk):
             estudiante.estado = True
         estudiante.save()
         msg = 'Estado del Estudiante %s cambiado' % (estudiante.first_name)
-    json_data = json.dumps(msg, indent=4)
+        dicc = {
+            'respuesta': msg
+        }
+    json_data = json.dumps(dicc, indent=4)
     return HttpResponse(json_data, content_type='application/json')
 
 
@@ -322,7 +325,10 @@ def eliminar_materia(request, pk):
             materia.estado = True
         materia.save()
         msg = 'Estado de la Materia %s cambiado' % (materia.nombre)
-    json_data = json.dumps(msg, indent=4)
+        dicc = {
+            'respuesta': msg
+        }
+    json_data = json.dumps(dicc, indent=4)
     return HttpResponse(json_data, content_type='application/json')
 
 
