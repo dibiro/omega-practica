@@ -11,7 +11,9 @@ var tablaEstudiante= $('#estudiantes').dataTable({
     'scrollX':true
 });
 
-var tablaMateria= $('#materia').dataTable();
+var tablaMateria= $('#materia').dataTable({
+    'sScrollInfinite':true,
+});
 
 var tablaAsignatura= $('#asignaturas_asociadas').dataTable({
     'scrollX':true,
@@ -35,17 +37,17 @@ function fill_student () {
             addData.push(val.edad);
             addData.push(val.email);
             if (val.estado) {
-                addData.push("<div class='make-switch' class='estado' ><input type='checkbox' class='status' data-id="+val.id_estudiantee+" checked></div>");
+                addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id="+val.id_estudiantee+" checked></div>");
             }
             else{
-                addData.push("<div class='make-switch' class='estado' ><input type='checkbox' class='status' data-id="+val.id_estudiantee+"> </div>");
+                addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id="+val.id_estudiantee+"> </div>");
             }
             addData.push("<button class='btn btn-success asignaturas' data-id="+val.id_estudiantee+">asignatura</button>");
             tablaEstudiante.fnAddData(addData);
 
         });
         instanciandoSwitch();
-        evento_click_asociaciones();
+        evento_click_asociaciones('/unerg/eliminar_estudiante_json/');
         evento_click_estudiante();
         tablaEstudiante.fnAdjustColumnSizing();
 
@@ -58,8 +60,16 @@ function fill_materia(){
         $.each(json, function(index, val) {
             var addData=[];
             addData.push(val.nombre);
+            if (val.estado) {
+                addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id="+val.id_materia+" checked></div>");
+            }
+            else{
+                addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id="+val.id_materia+"> </div>");
+            }
             tablaMateria.fnAddData(addData);	
         });
+        instanciandoSwitch();
+        evento_click_asociaciones('/unerg/eliminar_materia_json/');
         tablaMateria.fnAdjustColumnSizing();
     });
 
@@ -94,8 +104,8 @@ function fill_asignaturas(id){
 
     });
 }
-function update_state(id){
-    $.get('/unerg/eliminar_estudiante_json/'+id,id);
+function update_state(id,direccion){
+    $.get(direccion+id);
 
 }
 function update_relation(id_estudiante , id_materia) {
@@ -104,7 +114,7 @@ function update_relation(id_estudiante , id_materia) {
         url: '/unerg/asignacion_guardar_json/'+id_estudiante,
         type: 'POST',
         dataType: 'json',
-        data: { 'codigo_materia':id_materia },
+        data: { token: 'csrf_token' ,'codigo_materia':id_materia },
     })
     .done(function() {
         console.log("success");
@@ -113,12 +123,14 @@ function update_relation(id_estudiante , id_materia) {
         console.log("error");
     })
     .always(function() {
-        console.log("complete");
+        fill_asignaturas(id_estudiante);
     });
 }
-function update_desasigna(id_materia) {
+function update_desasigna(id_materia,id_estudiante) {
 
-    $.get('/unerg/asignacion_eliminar_json/'+id_materia);
+    $.get('/unerg/asignacion_eliminar_json/'+id_materia, function(){
+        fill_asignaturas(id_estudiante);
+    });
 
 }
 function Agregando(direccion,valores){
@@ -154,7 +166,7 @@ function instanciandoSwitch(){
     $(".status").bootstrapSwitch({
         'size':'mini',
         'onColor':'success',
-        'offColor':'danger',
+        'offColor':'default',
         'handleWidth':10,
         'labelWidth':5,
         'onText':"<i class='icon-user-check'></i>",
@@ -163,7 +175,7 @@ function instanciandoSwitch(){
     $(".asigna,.desasigna").bootstrapSwitch({
         'size':'mini',
         'onColor':'success',
-        'offColor':'danger',
+        'offColor':'default',
         'handleWidth':10,
         'labelWidth':5,
         'onText':"<i class='icon-check'></i>",
@@ -172,10 +184,12 @@ function instanciandoSwitch(){
 
 }
 
-function evento_click_asociaciones(){
+function evento_click_asociaciones(url){
+
     $('.status').on('switchChange.bootstrapSwitch', function(event) {
-        update_state($(this).data('id'));
-    });	
+        update_state($(this).data('id'),url);
+    });
+  
 }
 
 function evento_click_asigna(){
@@ -184,7 +198,7 @@ function evento_click_asigna(){
 
     });
     $('.desasigna').on('switchChange.bootstrapSwitch',function(event){
-        update_desasigna("",$(this).data('id'));
+        update_desasigna($(this).data('id'),$('.id_asignacion').data('id'));
 
     })
 }
