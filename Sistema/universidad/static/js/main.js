@@ -1,7 +1,6 @@
 $(document).ready(function() 
 {
 
-    asignatura.hide ();
     fill_student();
     fill_materia();
     evento_click_guardarUsuario();
@@ -38,7 +37,8 @@ var tablaEstudiante = $('#estudiantes').dataTable({
 
 var tablaMateria = $('#materia').dataTable({
     'scrollY': '200px',
-    "scrollCollapse": true,
+    'scrollCollapse': true,
+
 });
 
 var tablaAsignatura = $('#asignaturas_asociadas').dataTable({
@@ -87,7 +87,7 @@ function fill_materia() {
     tablaMateria.fnClearTable()
     $.getJSON('/unerg/materias_json', function(json, textStatus) {
         $.each(json, function(index, val) {
-            var addData = [];
+            var addData= [];
             addData.push(val.nombre);
             if (val.estado) {
                 addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id=" + val.id_materia + " checked></div>");
@@ -201,6 +201,9 @@ function Agregando(direccion, valores) {
 function evento_click_estudiante() {
     $('.asignaturas').unbind('click');
     $('.asignaturas').on('click', function() {
+        $('.cambio').css({
+            width:'65%'
+        });
         asignatura.show(2000);
         fill_asignaturas($(this).data('id'));
     });
