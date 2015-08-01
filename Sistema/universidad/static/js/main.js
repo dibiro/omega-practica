@@ -1,15 +1,20 @@
-$(document).ready(function() {
+$(document).ready(function() 
+{
 
-    asignatura.hide();
+    asignatura.hide ();
     fill_student();
     fill_materia();
     evento_click_guardarUsuario();
 
-})
-
+});
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
 function getCookie(name) {
     var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
+    if (document.cookie && document.cookie !== '') 
+    {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
@@ -21,26 +26,32 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
+var csrftoken= getCookie('csrftoken');
 
 
-var asignatura = $('.contenedor-asignatura');
+var asignatura= $('.contenedor-asignatura');
 var tablaEstudiante = $('#estudiantes').dataTable({
-    'scrollX': true
+    'scrollX': true,
+    'scrollY': '200px',
+    'scrollCollapse': true,
 });
 
 var tablaMateria = $('#materia').dataTable({
-    "scrollY": "200px",
+    'scrollY': '200px',
     "scrollCollapse": true,
 });
 
 var tablaAsignatura = $('#asignaturas_asociadas').dataTable({
     'scrollX': true,
+    'scrollY': '200px',
+    'scrollCollapse': true,
     'bPaginate': false,
     'searching': false,
 });
 var tablaAsignaturaNoAsociadas = $('#asignaturas_noAsociadas').dataTable({
-    'sScrollInfinite': true,
+    'scrollX': true,
+    'scrollY': '200px',
+    'scrollCollapse': true,
     'bPaginate': false,
     'searching': false,
 });
@@ -134,22 +145,24 @@ function update_relation(id_estudiante, id_materia) {
             type: 'POST',
             dataType: 'json',
             data: {
-                'codigo_materia': id_materia
+                'codigo_materia': id_materia,
             },
             beforeSend: cook()
         })
         .done(function() {
-            console.log("success");
+            console.log('success');
         })
         .fail(function() {
-            console.log("error");
+
+            console.log('error');
+        
         })
         .always(function() {
             fill_asignaturas(id_estudiante);
         });
 
     function cook(xhr) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        xhr.setRequestHeader('X-CSRFToken' , csrftoken);
 
     };
 
