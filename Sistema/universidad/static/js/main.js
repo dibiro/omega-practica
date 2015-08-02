@@ -3,7 +3,7 @@ $(document).ready(function()
 
     fill_student();
     evento_click_pestaña();
-    evento_click_guardarUsuario();
+    evento_click_guardar();
 });
 
 var asignatura= $('.contenedor-asignatura');
@@ -17,12 +17,14 @@ var tablaEstudiante = $('#estudiantes').dataTable({
 var tablaMateria = $('#materia').dataTable();
 
 var tablaAsignatura = $('#asignaturas_asociadas').dataTable({
+    'bScrollAutoCss': false,
     'scrollY': '200px',
     'searching': false,
     'bPaginate':false,
      
 });
 var tablaAsignaturaNoAsociadas = $('#asignaturas_noAsociadas').dataTable({
+    'bScrollAutoCss': false,
     'scrollY': '200px',
     'bPaginate':false,
     'searching': false,
@@ -148,7 +150,7 @@ function update_desasigna(id_materia, id_estudiante) {
 
 }
 
-function Agregando(direccion, valores) {
+function Agregando(direccion, valores,recargar) {
     $.ajax({
             url: direccion,
             type: 'POST',
@@ -156,17 +158,14 @@ function Agregando(direccion, valores) {
             data: valores,
         })
         .done(function() {
-            $('#myModal').modal('hide')
+            $('#myModal').modal('hide');
+             $('#myModal2').modal('hide');
+            recargar();
         })
         .fail(function() {
             console.log("error");
         })
-        .always(function() {
-            fill_materia();
-            fill_student();
-        });
-
-
+        
 };
 
 function evento_click_estudiante() {
@@ -239,9 +238,13 @@ function evento_click_asigna() {
     })
 }
 
-function evento_click_guardarUsuario() {
+function evento_click_guardar() {
     $('.agregar').submit(function(event) {
-        Agregando($(this).attr('action'), $(this).serialize());
+        Agregando($(this).attr('action'), $(this).serialize(),fill_student);
+        return false;
+    });
+     $('.agregarMateria').submit(function(event) {
+        Agregando($(this).attr('action'), $(this).serialize(),fill_materia);
         return false;
     });
 }

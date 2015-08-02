@@ -154,7 +154,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Añadir Materia</h4>
       </div>
-        <form name='materia' class='agregar' role="form" data-toggle="validator" method='POST' action='/unerg/materias_guardar_json/'>{% csrf_token %}
+        <form name='materia' class='agregarMateria' role="form" data-toggle="validator" method='POST' action='/unerg/materias_guardar_json/'>{% csrf_token %}
         <div class="modal-body">
         	<div class="form-group">
         		<label for="nombre">Materia</label>

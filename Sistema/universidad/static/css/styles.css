@@ -22,7 +22,6 @@ header{
 }
 .contenedor-asignatura{
 	width: 30%;
-	height: 70%;
 	background-color: #81BEF7;
 	position: absolute;
 	right: 20px;
@@ -71,13 +70,14 @@ header{
 	transition: 1s;
 }
 
-#asignaturas_Asociadas_info{
+.dataTables_info{
 	display:none;
 }
-#asignaturas_noAsociadas_info{
+.dataTables_info{
 	display:none;
 }
 div.active{
+	min-height: 600px;
 	background: #A9D0F5;
 	border-radius: 0 30px 30px 30px;
 }
