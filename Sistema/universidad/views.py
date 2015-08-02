@@ -186,9 +186,9 @@ def materias(request):
         return HttpResponse(json_data, content_type='application/json')
 
 
-def asignacion(request, pk):
+def asignacion(request, pk, pk_materia):
     lista_errores = []
-    codigo = request.POST['codigo_materia']
+    codigo = pk_materia
     msg = ''
     try:
         estudiante = Estudiante.objects.get(id=pk)
