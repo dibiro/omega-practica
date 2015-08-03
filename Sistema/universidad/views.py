@@ -123,21 +123,22 @@ def vista_materias_nombre(request):
 def estudiante(request):
     msg = ''
     lista_errores = []
-    if request.POST.get('nombre', '') is '':
+    if str(request.POST['nombre']) is '':
         msg = 'El nombre no puede estar vacio '
         lista_errores.append(msg)
-    if request.POST.get('apellido', '') is '':
+    if str(request.POST['apellido']) is '':
         msg = 'El apellido no puede estar vacio'
         lista_errores.append(msg)
-    if request.POST.get('edad', '') is '':
-        msg = 'La edad no puede estar vacia'
-        lista_errores.append(msg)
-    if request.POST.get('email', '') is '':
+    if str(request.POST['email']) is '':
         msg = 'El email no puede estar vacio'
         lista_errores.append(msg)
-    if request.POST.get('cedula', '') is '':
+    if str(request.POST['cedula']) is '':
         msg = 'La cedula no puede estar vacia'
         lista_errores.append(msg)
+    if str(request.POST['edad']) is '':
+        msg = 'La edad no puede estar vacia'
+        lista_errores.append(msg)
+    
 
     if len(lista_errores) > 0:
         json_data = json.dumps(lista_errores, indent=4)
@@ -165,7 +166,7 @@ def estudiante(request):
 def materias(request):
     msg = ''
     lista_errores = []
-    if request.POST.get('nombre_materia', '') is '':
+    if str(request.POST['nombre_materia']) is '':
         msg = 'El nombre no puede estar vacio '
         lista_errores.append(msg)
 
@@ -341,40 +342,31 @@ def actualizar_estudiante(request, pk):
         msg = 'Estudiante no existe'
         lista_errores.append(msg)
     if msg is '':
-        if request.POST['nombre'] is '':
-            msg = 'El nombre no puede estar vacio'
+        if str(request.POST['nombre']) is '':
+            msg = 'El nombre no puede estar vacio '
             lista_errores.append(msg)
-        if request.POST['apellido'] is '':
+        if str(request.POST['apellido']) is '':
             msg = 'El apellido no puede estar vacio'
             lista_errores.append(msg)
-        if request.POST['cedula'] is '':
+        if str(request.POST['email']) is '':
+            msg = 'El email no puede estar vacio'
+            lista_errores.append(msg)
+        if str(request.POST['cedula']) is '':
             msg = 'La cedula no puede estar vacia'
             lista_errores.append(msg)
-        if int(request.POST['cedula']):
-            msg = 'la cedula debe ser un numero'
+        if str(request.POST['edad']) is '':
+            msg = 'La edad no puede estar vacia'
             lista_errores.append(msg)
-        if request.POST['edad'] is not '':
-            msg = 'No se pueden guardar la edad vacia'
-            lista_errores.append(msg)
-        if int(request.POST['edad']):
-            msg = 'La edad deb ser un numero'
-            lista_errores.append(msg)
-        if int(request.POST['edad']) < 0 or int(request.POST['edad']) > 140:
-            msg = 'La edad no puede ser mayor de 140 ni menor a 0'
-            lista_errores.append(msg)
-        if request.POST['email'] is not '':
-            msg = 'El Correo no puede estar vacio'
-            lista_errores.append(msg)
-    if msg is '':
+        
+    if len(lista_errores) > 0:
+        json_data = json.dumps(lista_errores, indent=4)
+    else:
         estudiante.first_name = request.POST['nombre']
         estudiante.last_name = request.POST['apellido']
         estudiante.cedula = request.POST['cedula']
         estudiante.edad = request.POST['edad']
         estudiante.email = request.POST['email']
         estudiante.save()
-    if len(lista_errores) > 0:
-        json_data = json.dumps(lista_errores, indent=4)
-    else:
         dicc = {
             'id': estudiante.id,
             'nombre': estudiante.first_name,
@@ -396,7 +388,7 @@ def actualizar_materia(request, pk):
         msg = 'materias no existe'
         lista_errores.append(msg)
     if msg is '':
-        if request.POST['nombre_materia'] is '':
+        if str(request.POST['nombre_materia']) is '':
             msg = 'El nombre de la materia no puede venir vacio'
             lista_errores.append(msg)
     if msg is '':

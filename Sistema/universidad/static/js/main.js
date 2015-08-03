@@ -2,61 +2,34 @@ $(document).ready(function()
 {
 
     fill_student();
-    fill_materia();
+    evento_click_pestaña();
     evento_click_guardarUsuario();
 
 });
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') 
-    {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-var csrftoken= getCookie('csrftoken');
-
 
 var asignatura= $('.contenedor-asignatura');
+
 var tablaEstudiante = $('#estudiantes').dataTable({
-    'scrollX': true,
-    'scrollY': '200px',
-    'scrollCollapse': true,
+    'columnDefs': [
+    { className: 'columna', 'targets': [3,4] }
+  ]
 });
-
-var tablaMateria = $('#materia').dataTable({
-    'scrollY': '200px',
-    'scrollCollapse': true,
-
-});
+    
+var tablaMateria = $('#materia').dataTable();
 
 var tablaAsignatura = $('#asignaturas_asociadas').dataTable({
-    'scrollX': true,
-    'scrollY': '200px',
-    'scrollCollapse': true,
+    'scrollY': '100px',
     'bPaginate': false,
     'searching': false,
 });
 var tablaAsignaturaNoAsociadas = $('#asignaturas_noAsociadas').dataTable({
-    'scrollX': true,
-    'scrollY': '200px',
-    'scrollCollapse': true,
+    'scrollY': '100px',
     'bPaginate': false,
     'searching': false,
 });
 
 function fill_student() {
+
     tablaEstudiante.fnClearTable();
     $.getJSON('/unerg/estudiante_json', function(json, textStatus) {
         $.each(json, function(index, val) {
@@ -90,14 +63,14 @@ function fill_materia() {
             var addData= [];
             addData.push(val.nombre);
             if (val.estado) {
-                addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id=" + val.id_materia + " checked></div>");
+                addData.push("<div class='make-switch estado' ><input type='checkbox' class='statusM' data-id=" + val.id_materia + " checked></div>");
             } else {
-                addData.push("<div class='make-switch estado' ><input type='checkbox' class='status' data-id=" + val.id_materia + "> </div>");
+                addData.push("<div class='make-switch estado' ><input type='checkbox' class='statusM' data-id=" + val.id_materia + "> </div>");
             }
             tablaMateria.fnAddData(addData);
         });
         instanciandoSwitch();
-        evento_click_asociaciones('/unerg/eliminar_materia_json/');
+        evento_click_asociacionesMateria('/unerg/eliminar_materia_json/');
         tablaMateria.fnAdjustColumnSizing();
     });
 
@@ -110,7 +83,7 @@ function fill_asignaturas(id) {
         $.each(json, function(index, val) {
             var addData = [];
             addData.push(val.materia_asignada);
-            addData.push("<div class='make-switch id_asignacion' data-id='" + id + "'><input type='checkbox'  class='desasigna' data-id='" + val.id_asignacion + "' checked></div>")
+            addData.push("<div class='make-switch id='asignacion' data-id='" + id + "'><input type='checkbox'  class='desasigna' data-id='" + val.id_asignacion + "' checked></div>")
             tablaAsignatura.fnAddData(addData);
         });
         instanciandoSwitch();
@@ -142,12 +115,12 @@ function update_relation(id_estudiante, id_materia) {
 
     $.ajax({
             url: '/unerg/asignacion_guardar_json/' + id_estudiante,
-            type: 'POST',
+            type: 'GET',
             dataType: 'json',
             data: {
                 'codigo_materia': id_materia,
             },
-            beforeSend: cook()
+            beforeSend: cook(xhr)
         })
         .done(function() {
             console.log('success');
@@ -158,13 +131,11 @@ function update_relation(id_estudiante, id_materia) {
         
         })
         .always(function() {
+
             fill_asignaturas(id_estudiante);
+            
         });
 
-    function cook(xhr) {
-        xhr.setRequestHeader('X-CSRFToken' , csrftoken);
-
-    };
 
 }
 
@@ -184,8 +155,7 @@ function Agregando(direccion, valores) {
             data: valores,
         })
         .done(function() {
-
-
+            $('#myModal').modal('hide')
         })
         .fail(function() {
             console.log("error");
@@ -202,15 +172,18 @@ function evento_click_estudiante() {
     $('.asignaturas').unbind('click');
     $('.asignaturas').on('click', function() {
         $('.cambio').css({
-            width:'65%'
+            width:'60%'
         });
-        asignatura.show(2000);
-        fill_asignaturas($(this).data('id'));
+        $('.columna').hide(500);
+        asignatura.show(3000, function() {
+        
+          fill_asignaturas($('.asignaturas').data('id'));
+        });
     });
 }
 
 function instanciandoSwitch() {
-    $(".status").bootstrapSwitch({
+        $('.status,.statusM').bootstrapSwitch({
         'size': 'mini',
         'onColor': 'success',
         'offColor': 'default',
@@ -238,7 +211,13 @@ function evento_click_asociaciones(url) {
     });
 
 }
+function evento_click_asociacionesMateria(url) {
 
+    $('.statusM').on('switchChange.bootstrapSwitch', function(event) {
+        update_state($(this).data('id'), url);
+    });
+
+}
 function evento_click_asigna() {
     $('.asigna').on('switchChange.bootstrapSwitch', function(event) {
         update_relation($('.id_asignacion').data('id'), $(this).data('id'));
@@ -254,5 +233,11 @@ function evento_click_guardarUsuario() {
     $('.agregar').submit(function(event) {
         Agregando($(this).attr('action'), $(this).serialize());
         return false;
+    });
+}
+function evento_click_pestaña(){
+    $('#cargar').on('click', function(){
+
+       fill_materia();
     });
 }
