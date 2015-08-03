@@ -187,13 +187,12 @@ def materias(request):
         return HttpResponse(json_data, content_type='application/json')
 
 
-def asignacion(request, pk, pk_materia):
+def asignacion(request, pk):
     lista_errores = []
-    codigo = pk_materia
     msg = ''
     try:
         estudiante = Estudiante.objects.get(id=pk)
-        materia = Materia.objects.get(id=codigo)
+        materia = Materia.objects.get(id=request.GET['codigo_materia'])
     except:
         if estudiante is '':
             msg = 'Estudiante no existe o valor invalido'
@@ -203,13 +202,18 @@ def asignacion(request, pk, pk_materia):
             lista_errores.append(msg)
     if len(lista_errores) > 0:
         json_data = json.dumps(lista_errores, indent=4)
-        return HttpResponse(json_data, content_type='application/json')
+
     else:
         asignacion = Asignacion.objects.create(codigo_materia=codigo, id_estudiante=pk)
         asignacion.save()
-
-        json_data = serializers.serialize('json', asignacion, fields=('codigo_materia', 'id', 'id_estudiante'))
-        return HttpResponse(json_data, content_type='application/json')
+        dicc = {}
+        dicc = {
+            'pk': asignacion.id
+            'codigo_materia': asignacion.codigo_materia
+            'id_estudiante': asignacion.id_estudiante
+        }
+        json_data = json.dumps(dicc, indent=4)
+    return HttpResponse(json_data, content_type='application/json')
 
 
 def desasignacion(request, pk):
