@@ -208,9 +208,7 @@ def asignacion(request, pk):
         asignacion.save()
         dicc = {}
         dicc = {
-            'pk': asignacion.id
-            'codigo_materia': asignacion.codigo_materia
-            'id_estudiante': asignacion.id_estudiante
+            'respuesta': 'reguistrado exitosamente'
         }
         json_data = json.dumps(dicc, indent=4)
     return HttpResponse(json_data, content_type='application/json')
@@ -298,9 +296,8 @@ def materias_asociadas_estudiante(request, pk):
 
 def eliminar_estudiante(request, pk):
     msg = ''
-    try:
-        estudiante = Estudiante.objects.get(id=pk)
-    except:
+    estudiante = Estudiante.objects.get(id=pk)
+    if str(estudiante.first_name) is '':
         msg = 'Estudiante no existe'
 
     if msg is '':
@@ -309,11 +306,10 @@ def eliminar_estudiante(request, pk):
         else:
             estudiante.estado = True
         estudiante.save()
-        msg = 'Estado del Estudiante %s cambiado' % (estudiante.first_name)
-        dicc = {
-            'respuesta': msg
-        }
-    json_data = json.dumps(dicc, indent=4)
+        msg = 'Estado del Estudiante ' + estudiante.first_name + ' cambiado'
+        lista = []
+        lista.append(msg)
+    json_data = json.dumps(lista, indent=4)
     return HttpResponse(json_data, content_type='application/json')
 
 
