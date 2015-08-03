@@ -9,15 +9,7 @@ header{
 	-moz-box-shadow: -22px 0px 51px 0px rgba(131,138,134,1);
 	box-shadow: -22px 0px 51px 0px rgba(131,138,134,1);
 }
-.devolver{
-	position: absolute;
-	right: 10px;
-	opacity: 0.5;
-	color: #999;
-	top: 50px;
-	
 
-}
 .dates{
 	background-color: #81BEF7;
 	width: 90%;
@@ -30,14 +22,13 @@ header{
 }
 .contenedor-asignatura{
 	width: 30%;
-	height: 70%;
 	background-color: #81BEF7;
 	position: absolute;
 	right: 20px;
 	top: 57px;
 	border-radius: 30px 30px 30px 30px;
 	display: none;
-	overflow: hidden;
+	
 
 }
 .muestraAsignatura{
@@ -55,16 +46,38 @@ header{
 }
 .tab-content .icons{
 	margin: 10px;	
-	font-size: 1em	;
+	font-size: 1em;
+	color: #fff;
+	background: #2B70E4;
+	border-radius: 25px 25px 25px 25px;
+}
+.tab-content .icons:hover{
+	background:#1359CE;
+	transition: 0.5s
+}
+.ocultarAsignatura{
+	position: absolute;
+	right: 50%;
+	top: 10px;
+	left: 50%;
+	font-size: 30px;
+	color: #2B70E4;
+	display: none;
+}
+.ocultarAsignatura:hover{
+	color:#1359CE;
+	font-size:40px;
+	transition: 1s;
 }
 
-#asignaturas_Asociadas_info{
+.dataTables_info{
 	display:none;
 }
-#asignaturas_noAsociadas_info{
+.dataTables_info{
 	display:none;
 }
 div.active{
+	min-height: 600px;
 	background: #A9D0F5;
 	border-radius: 0 30px 30px 30px;
 }
@@ -94,14 +107,27 @@ div.active{
 .nav-tabs > li.active >a:focus{
 	background: #A9D0F5;
 }
-#estudiantes_length>label{
+.dataTables_length>label{
 	display:none;
 }
-#estudiantes_filter>label>input{
+.dataTables_filter>label>input{
 	width: 40%;
 }
-#estudiantes_filter>label{
+.dataTables_filter>label{
 	margin-right:15%; 
+}
+.bootstrap-switch
+{
+    border-radius: 25%;
+    height: 15px;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-on , .bootstrap-switch-handle-off {
+    height: 17px;
+}
+.bootstrap-switch-label{
+	height: 15px;
+	border-radius: 100% !important;
 }
 /*
  * Table styles
