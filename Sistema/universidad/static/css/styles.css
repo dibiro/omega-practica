@@ -67,7 +67,7 @@ header{
 .ocultarAsignatura:hover{
 	color:#1359CE;
 	font-size:40px;
-	transition: 1s;
+	transition: 0.5s;
 }
 .modal-content{
 	border-radius: 30px;
