@@ -69,6 +69,13 @@ header{
 	font-size:40px;
 	transition: 1s;
 }
+.modal-content{
+	border-radius: 30px;
+}
+.modal-header{
+	background: #2E9AFE;
+	border-radius: 30px 30px 0 0;
+}
 
 .dataTables_info{
 	display:none;
