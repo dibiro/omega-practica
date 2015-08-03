@@ -123,7 +123,6 @@ function update_relation(id_estudiante, id_materia) {
             data: {
                 'codigo_materia': id_materia,
             },
-            beforeSend: cook(xhr)
         })
         .done(function() {
             console.log('success');
@@ -134,10 +133,6 @@ function update_relation(id_estudiante, id_materia) {
             console.log('error');
         
         })
-        .always(function() {
-
-            
-        });
 
 
 }
@@ -165,6 +160,15 @@ function Agregando(direccion, valores,recargar) {
         .fail(function() {
             console.log("error");
         })
+        .always(function() {
+            $('.agregar').each(function() {
+                this.reset();
+            });
+            $('.agregarMateria').each(function() {
+                this.reset();
+            });
+        })
+        
         
 };
 
